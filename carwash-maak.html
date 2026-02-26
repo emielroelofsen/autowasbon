@@ -1,0 +1,2724 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/x-icon" href="_assets/_style/_images/favicon.png">
+
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="_assets/_style/main.css">
+  <link rel="stylesheet" href="_assets/_style/dashboard.css">
+  <link rel="stylesheet" href="_assets/_style/maakbon.css">
+  <link rel="stylesheet" href="_assets/_style/timeline-editor.css">
+
+  <script src="https://kit.fontawesome.com/f041d734e9.js" crossorigin="anonymous"></script>
+
+	<title>National Autowasbon - POWER WASH</title>
+</head>
+<style>
+  /* Card flip container */
+  .card-flip-container {
+    width: calc(100dvw - 40px);
+    height: calc(100dvh - 40px);
+    position: relative;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+    touch-action: none;
+  }
+  
+  .card-flip-container .card__back {
+    touch-action: pan-y;
+  }
+
+  .card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+    -webkit-transition: -webkit-transform 0.6s ease-in-out;
+  }
+
+  .card-flip-inner.flipped {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+  }
+
+  /* Centered card */
+  .card {
+    width: 100%;
+    height: 100%;
+    background: #2C54F4;
+    border-radius: 20px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    pointer-events: auto;
+  }
+
+  .card-flip-inner.flipped .card {
+    pointer-events: none;
+  }
+
+  .card__back {
+    width: 100%;
+    height: 100%;
+    background: whitesmoke;
+    border-radius: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    pointer-events: none;
+    touch-action: pan-y;
+  }
+
+  .card-flip-inner.flipped .card__back {
+    pointer-events: auto;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 2;
+    position: relative;
+  }
+
+  .window_frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    pointer-events: none;
+    /* backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); */
+    overflow: hidden;
+    /* Safari mobile requires -webkit-mask-image first */
+    /* -webkit-mask-image: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask: url('_assets/_style/_images/maks--blur.svg');
+    mask-image: url('_assets/_style/_images/maks--blur.svg');
+    mask: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect; */
+    background: rgba(255, 255, 255, 0);
+    display: block;
+  }
+
+  .window_frame:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    /* Safari mobile requires -webkit-mask-image first */
+    -webkit-mask-image: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask: url('_assets/_style/_images/maks--blur.svg');
+    mask-image: url('_assets/_style/_images/maks--blur.svg');
+    mask: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    /* backdrop-filter requires a semi-transparent background to work */
+    background: rgba(255, 255, 255, 0.01);
+    animation: windowFrameAnimation 7s ease-in-out 1;
+    -webkit-animation: windowFrameAnimation 7s ease-in-out 1;
+    /* Animation only runs when .window_frame--animate is added (camera in trigger zone) */
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-fill-mode: both;
+
+  }
+
+  .window_frame.window_frame--animate:before {
+    animation-play-state: running;
+    -webkit-animation-play-state: running;
+  }
+
+  .window_frame:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    opacity: 1;
+    pointer-events: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+    /* Safari mobile requires -webkit-mask-image first */
+    -webkit-mask-image: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask: url('_assets/_style/_images/maks--blur.svg');
+    mask-image: url('_assets/_style/_images/maks--blur.svg');
+    mask: url('_assets/_style/_images/maks--blur.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    /* backdrop-filter requires a semi-transparent background to work */
+    background: rgba(255, 255, 255, 0.01);
+    animation: windowFrameAnimation 7s ease-in-out 1;
+    -webkit-animation: windowFrameAnimation 7s ease-in-out 1;
+    animation-delay: 2s;
+    -webkit-animation-delay: 2s;
+    /* Animation only runs when .window_frame--animate is added (camera in trigger zone) */
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-fill-mode: both;
+
+  }
+
+  .window_frame.window_frame--animate:after {
+    animation-play-state: running;
+    -webkit-animation-play-state: running;
+  }
+
+  /* Window frame soap: same as window_frame but with soap masks, triggered at Z -138 */
+  .window_frame--soap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    pointer-events: none;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0);
+    display: block;
+  }
+
+  .window_frame--soap:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    -webkit-mask-image: url('_assets/_style/_images/maks--blur-soap.svg');
+    -webkit-mask: url('_assets/_style/_images/maks--blur-soap.svg');
+    mask-image: url('_assets/_style/_images/maks--blur-soap.svg');
+    mask: url('_assets/_style/_images/maks--blur-soap.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    background: rgba(255, 255, 255, 0.4);
+    animation: windowFrameAnimation 4s ease-in-out 1;
+    -webkit-animation: windowFrameAnimation 7s ease-in-out 1;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-fill-mode: both;
+  }
+
+  .window_frame--soap.window_frame--soap--animate:before {
+    animation-play-state: running;
+    -webkit-animation-play-state: running;
+  }
+
+  .window_frame--soap:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    opacity: 1;
+    pointer-events: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+    -webkit-mask-image: url('_assets/_style/_images/maks--blur-soap-b.svg');
+    -webkit-mask: url('_assets/_style/_images/maks--blur-soap-b.svg');
+    mask-image: url('_assets/_style/_images/maks--blur-soap-b.svg');
+    mask: url('_assets/_style/_images/maks--blur-soap-b.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    background: rgba(255, 255, 255, 0.6);
+    animation: windowFrameAnimation 7s ease-in-out 1;
+    -webkit-animation: windowFrameAnimation 4s ease-in-out 1;
+    animation-delay: 2s;
+    -webkit-animation-delay: 1s;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-fill-mode: both;
+  }
+
+  .window_frame--soap.window_frame--soap--animate:after {
+    animation-play-state: running;
+    -webkit-animation-play-state: running;
+  }
+
+  /* CSS animations for Safari compatibility - replaces SVG animate elements */
+  @keyframes dropMaskPath1 {
+    0% {
+      opacity: 0;
+      stroke-dashoffset: 2000;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @-webkit-keyframes dropMaskPath1 {
+    0% {
+      opacity: 0;
+      stroke-dashoffset: 2000;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes dropMaskPath2 {
+    from {
+      stroke-dashoffset: 1000;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @-webkit-keyframes dropMaskPath2 {
+    from {
+      stroke-dashoffset: 2000;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes windowFrameAnimation {
+    0% {
+      height: 200%;
+      transform: translateY(-100%);
+    }
+    50% {
+      height: 200%;
+      transform: translateY(0%);
+    }
+    100% {
+      height: 100%;
+      transform: translateY(100%);
+    }
+  }
+
+  @-webkit-keyframes windowFrameAnimation {
+    0% {
+      height: 200%;
+      -webkit-transform: translateY(-100%);
+    }
+    50% {
+      height: 200%;
+      -webkit-transform: translateY(0%);
+    }
+    100% {
+      height: 100%;
+      -webkit-transform: translateY(100%);
+    }
+  }
+
+  .drop-mask-path-1 {
+    animation: dropMaskPath1 5s linear infinite;
+    -webkit-animation: dropMaskPath1 5s linear infinite;
+  }
+
+  .drop-mask-path-2 {
+    animation: dropMaskPath2 10s linear infinite 5s;
+    -webkit-animation: dropMaskPath2 10s linear infinite 5s;
+  }
+
+
+  .lottie-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .lottie-overlay .lottie-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+
+  .lottie-overlay .lottie-container.active {
+    display: block;
+  }
+
+  .lottie-overlay .lottie-container svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Only for start-button Lottie (RGeGDbsxaX.lottie): contain within size, single display */
+  .lottie-overlay .lottie-container.lottie-container--start-animation {
+    overflow: hidden;
+  }
+
+  .lottie-overlay .lottie-container.lottie-container--start-animation > * {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0;
+    min-height: 0;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .lottie-overlay .lottie-container.lottie-container--start-animation svg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain !important;
+    object-position: center !important;
+    display: block !important;
+  }
+
+  .info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 10px;
+    background: rgba(0,0,0,0.5);
+    padding: 4px 8px;
+    border-radius: 6px;
+    pointer-events: none;
+    color: #fff;
+    z-index: 10;
+    display: none;
+  }
+
+  /* Loading Screen Styles */
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2C54F4;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+  }
+
+  .loading-lottie-container {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-lottie-container svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .loading-percentage {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    font-family: 'Sink';
+    text-align: center;
+    /* min-height: 60px; */
+    /* display: flex; */
+    /* align-items: center; */
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -160%) skewX(-20deg) rotate(-10deg);
+  }
+
+  .loading-message {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'roc-grotesk-condensed', sans-serif;
+    text-align: center;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .loading-message.fade-out {
+    opacity: 0;
+  }
+
+  .ratio-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1000;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .ratio-toggle-btn:hover {
+    background: rgba(0,0,0,0.9);
+    transform: scale(1.05);
+  }
+
+  .ratio-toggle-btn:active {
+    transform: scale(0.95);
+  }
+
+  .scroll-mode-btn {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    padding: 12px 24px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1000;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .scroll-mode-btn:hover {
+    background: rgba(0,0,0,0.9);
+    transform: scale(1.05);
+  }
+
+  .scroll-mode-btn:active {
+    transform: scale(0.95);
+  }
+
+  .scroll-mode-btn.checkpoint-mode {
+    background: rgba(44, 84, 244, 0.8);
+    border-color: #fff;
+  }
+
+  .scroll-mode-btn.free-mode {
+    background: rgba(55, 211, 117, 0.8);
+    border-color: #fff;
+  }
+
+  .flip-card-btn {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    padding: 12px 24px;
+    background: rgba(255, 165, 0, 0.8);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 1000;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .flip-card-btn:hover {
+    background: rgba(255, 165, 0, 0.9);
+    transform: scale(1.05);
+  }
+
+  .flip-card-btn:active {
+    transform: scale(0.95);
+  }
+
+  .card.mobile-ratio {
+    aspect-ratio: 9 / 16;
+    width: min(100vw, calc(100vh * 9 / 16));
+    height: auto;
+    max-height: 100vh;
+  }
+
+  .card-flip-container.mobile-ratio {
+    aspect-ratio: 9 / 16;
+    width: min(100vw, calc(100vh * 9 / 16));
+    height: auto;
+    max-height: 100vh;
+  }
+
+  .end__card--autowasbon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+  }
+
+  .end__card--autowasbon.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dashboard__wrapper {
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    pointer-events: none;
+  }
+
+  .dash__text, .dash__nav--icons {
+  pointer-events: all;
+}
+
+  .dashboard__wrapper.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .btn__main {
+			padding: 10px 24px;
+    padding-right: 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    line-height: 1;
+    background-color: #FACC15;
+    color: black;
+	filter: drop-shadow(0 4px 1px rgba(0,0,0,1));
+		}
+		.btn__main:disabled {
+			background-color: #6b7280;
+			cursor: not-allowed;
+			opacity: 0.9;
+		}
+
+		.btn__main:active {
+			background-color: #bd9a10;
+			transform: translateY(4px);
+			filter: drop-shadow(0 0px 1px rgba(0,0,0,1));
+		}
+
+@media screen and (max-width: 768px){
+  .ratio-toggle-btn {
+    display: none;
+  }
+  .scroll-mode-btn {
+    display: none;
+  }
+  .card-flip-container {
+    width: calc(100dvw - 40px);
+    height: calc(100dvh - 40px);
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  .card__back {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    touch-action: pan-y;
+  }
+  
+  .lottie-overlay {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .lottie-overlay .lottie-container {
+    width: 100vw;
+    height: 100dvh;
+  }
+  
+  .lottie-overlay .lottie-container.lottie-container--start-animation svg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  .section__title {
+    font-size: 40px;
+  }
+
+  .window__frame--desktop {
+    display: none;
+  }
+
+  /* Reduce animation duration by 1 second on mobile */
+  .window_frame:before {
+    animation-duration: 6s;
+    -webkit-animation-duration: 6s;
+  }
+
+  .window_frame:after {
+    animation-duration: 6s;
+    -webkit-animation-duration: 6s;
+  }
+
+  .window_frame--soap:before {
+    animation-duration: 3s;
+    -webkit-animation-duration: 6s;
+  }
+
+  .window_frame--soap:after {
+    animation-duration: 6s;
+    -webkit-animation-duration: 3s;
+  }
+
+
+}
+
+</style>
+</head>
+<body class=" font__size--body bg--black">
+
+<main>
+  <div class="main__inner flex flex-col gap-4" style="max-width: 100%;">
+    <section class="flex flex-col items-center justify-center gap-4 bg--black"
+      style="height: calc(100dvh);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;">
+      
+      <div class="card-flip-container">
+        <div class="card-flip-inner" id="cardFlipInner">
+          <div class="card" id="card">
+
+        <section class="end__card--autowasbon flex flex-col items-center gap-4 w-full pt-8">
+
+          <div class="end__card--autowasbon-content max-w-[480px]">
+
+          <div class="title__wash font__wash">
+
+            <div class="title__wash--logo flex justify-center items-center z-10 relative rotate-3 mb-[24px]">
+
+              <img src="_assets/_style/_images/logo-main.svg" alt="Log Nat. Autowasbon" class="card__logo w-[80px]">
+    
+            </div>
+  
+            <img class="title__wash--water" src="_assets/_style/_images/autowasbon__shower.svg">
+  
+            <h1 class="section__title">
+              
+              Dit is jouw <br />persoonlijke <br />autowasbon
+  
+            </h1>
+  
+          </div>
+  
+          <div id="showAutowasbon" class="flex flex-col justify-center items-center mt-[64px] gap-4" style="position: relative; z-index: 20;">
+            <button type="button" id="" class="btn__main">Bestellen <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+
+            <button type="button" class=" btn__main bg-black text-white z-10 text-[20px]">Pas de wasstraat aan</button>
+          </div>
+
+          </div>
+  
+        </section>
+
+        <div class="card__header">
+
+          <img src="_assets/_style/_images/logo-main.svg" alt="Log Nat. Autowasbon" class="card__logo">
+
+        </div>
+
+        <div class="dashboard__wrapper">
+
+        
+         
+<svg class="window__frame--desktop" width="100%" height="100%" preserveAspectRatio="none" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 590">
+  <defs>
+    
+  </defs>
+  <path class="cls-1"
+  d="M0,0v590h1320V0H0ZM1297.23,107.86l-151.79,468.8H169.44L17.65,107.86c-9.65-23.58,4.91-50.05,30-54.52C129.43,38.74,320.21,13.34,657.37,13.34s528.05,25.41,609.86,40c25.09,4.47,39.65,30.94,30,54.53Z"/>
+</svg>
+          
+        <div class="dashboard__layer">
+
+         
+
+
+          <!-- <svg class="window__frame" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+            <path d="M0,0v1920h1080V0H0ZM1032.72,134.86l-44.37,1341.9c-1.52,45.88-39.15,82.29-85.06,82.29H169.12c-45.91,0-83.54-36.41-85.06-82.29L39.69,134.86c-1.59-48.08,36.95-87.92,85.06-87.92h822.92c48.1,0,86.65,39.84,85.06,87.92Z"/>
+          </svg> -->
+          
+                      <!-- <svg class="dash__steer" width="218" height="218" viewBox="0 0 218 218" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M190.989 37.4409C171.915 15.4992 145.441 2.30001 116.438 0.271961C87.4359 -1.75609 59.3822 7.63017 37.4405 26.7038C15.4988 45.7774 2.29955 72.2518 0.271496 101.254C-1.75655 130.257 7.62971 158.31 26.7033 180.252C45.777 202.194 72.2513 215.393 101.254 217.421C130.256 219.449 158.31 210.063 180.252 190.989C202.193 171.916 215.393 145.441 217.421 116.439C219.449 87.4363 210.062 59.3826 190.989 37.4409ZM88.6319 199.715C85.3274 198.986 81.6059 198.09 79.147 197.263C54.9098 189.115 35.3192 171.336 24.5777 148.756C22.97 145.38 23.2755 141.341 25.5915 138.41C26.3802 137.414 27.3911 136.535 28.6759 135.828C33.9593 132.911 40.8364 133.106 46.6209 134.031C53.8641 135.188 60.9057 137.316 67.9266 139.411C74.6492 141.421 81.5836 142.842 88.1999 145.185C89.4143 145.615 90.6353 146.083 91.6589 146.869C92.9714 147.874 93.865 149.333 94.5526 150.837C97.8517 158.037 97.1705 166.461 97.0369 174.173C97.0083 175.636 96.5 186.465 96.142 193.957C95.957 197.789 92.3769 200.539 88.6319 199.715ZM95.1998 73.1616C79.941 72.9289 64.8509 74.8328 49.6229 75.2153C45.2319 75.3231 40.8303 75.255 36.4559 74.8615C32.8922 74.5432 27.8392 73.9686 27.6637 69.4254C27.5459 66.4949 28.5294 63.2404 29.6303 60.2845C30.0095 59.2786 30.483 58.3069 31.0756 57.4126C49.0461 30.3362 80.6796 13.3922 115.351 15.8167C153.651 18.4949 184.99 44.069 196.919 78.2095C197.031 80.5497 196.732 82.9256 195.2 84.6667C192.916 87.2634 188.806 87.3724 185.615 87.329C177.671 87.2252 170.02 84.8557 162.422 82.7711C161.065 82.3997 159.708 82.0374 158.349 81.6889C156.629 81.2414 154.903 80.8164 153.17 80.4095C149.122 79.4442 145.048 78.574 140.954 77.7991C125.869 74.9467 110.546 73.3913 95.1998 73.1616ZM133.043 198.916C130.304 199.656 127.532 200.273 124.737 200.755C121.816 201.265 118.873 201.627 115.918 201.839C111.711 202.144 108.202 198.673 108.404 194.465C108.818 185.902 109.558 177.362 110.623 168.859C111.499 161.877 111.159 153.091 118.33 149.481C122.003 147.636 126.88 148.286 130.85 147.937C135.933 147.495 140.974 146.469 145.932 145.304C147.084 145.034 148.233 144.75 149.378 144.462C150.26 144.242 151.142 144.018 152.02 143.794C156.723 142.583 161.416 141.326 166.169 140.326C172.232 139.045 179.549 137.298 185.511 139.904C187.26 140.667 188.919 141.659 190.403 142.846C192.796 144.751 193.497 148.1 192.117 150.824C180.248 174.299 158.444 192.069 133.043 198.916Z" fill="#091049"/>
+          </svg> -->
+
+          
+<svg class="dash__steer" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 526.85 527.84">
+  <path d="M526.85,263.92c0,145.76-117.94,263.92-263.43,263.92S0,409.68,0,263.92,117.94,0,263.43,0s263.43,118.16,263.43,263.92ZM252.54,185.64c75.44-1.11,149.62,11.79,220.41,36.47,2.33.81,4.14,2.32,6.06,3.63-4.9-28.36-15.22-54.54-30.42-78.78-.95-1.51-.83-4.18-.38-5.84-45.8-69.16-126.9-107.69-209.89-98.1-65.41,7.56-123.31,43.36-160.01,98.32,1.13,2.34.74,4.46-.9,7.05-14.5,22.98-24.4,48.32-29.3,76.06,48.74-18.41,100.33-29.54,152.23-35.57l24.13-1.94c9.44-.76,17.79-1.15,28.07-1.3ZM106.39,297.47c-4.28-24.74-4.27-48.3.85-70.3-14.64,4.06-27.41,7.74-40.38,12.4-2.49,19.62-1.69,38.29,1.19,57.59,13.12-2.37,25.43-.9,38.35.3ZM458.95,297.13c2.82-19.63,2.99-38.31,1.16-57.63l-40.59-12.41c5.2,22.58,5.48,46.23.61,71.28,12.22-2.94,25.01-3.29,38.81-1.25ZM218.68,456.68c-1.31-10.15-3.36-19.27-5.75-28.82-8.7-34.77-26.32-77.13-59.76-94.43-15.82-8.18-32.76-12.48-50.42-15.37-15.85-2.59-36.53-1.22-50.63,3.19,8.62,31.53,23.58,59,43.6,83.69-.17,3.24.84,5.18,3.13,7.69,32.71,35.76,75.15,60.22,123.11,69.37l-3.28-25.33ZM428.91,411.65c1.7-1.87,1.28-5.08,2.53-6.69,19.39-25.04,35.76-53.78,43.03-83.69-19.18-6.31-47.43-5.44-65.45-.36l-16.32,4.6c-20.65,5.82-37.58,18.06-49.99,35.7-24.17,34.36-33.85,78.71-37.67,120.89,48.57-9.63,91.04-34.27,123.88-70.45ZM286.5,463.55c-.01-8.93,5.53-28.55,4.96-32.26-.05-.34-1.98-.43-2.74-.28-16.77,3.47-36.16,2.73-53.71-.16l5.77,32.92,15.74.98c4.11.26,8.64.39,12.79.08l17.19-1.28Z"/>
+</svg>
+
+<img class="dash__steer--icon" src="_assets/_style/_images/logo--main-icon.svg" alt="Logo icon">
+          
+          
+                      <svg class="dash__nav" width="255" height="125" viewBox="0 0 255 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M220.564 0C228.427 1.07064 233.477 1.43995 238.481 12.8442C238.649 13.2263 238.783 13.6301 238.885 14.0349L254.118 74.8832C254.277 75.5186 254.357 76.171 254.357 76.826V140.18C254.357 144.598 250.776 148.18 246.357 148.18H8C3.58173 148.18 0 144.598 0 140.18V76.826C0 76.171 0.080434 75.5186 0.239496 74.8832L15.4727 14.0349C15.5741 13.6301 15.7088 13.2263 15.8765 12.8442C20.8806 1.43985 25.9307 1.07066 33.793 0H220.564Z" fill="#B7C0E1"/>
+          </svg>
+          
+                      <div class="dash__text">
+
+                          <div class="dash__text--button" id="carwashStart" style="cursor: pointer; position:absolute; top:0; left:0; width:100%; height:100%;">
+
+                            <svg class="dash__text--svg" width="184" height="50" viewBox="0 0 184 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                            
+                            <defs>
+                              <linearGradient id="dashTextStrokeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="yellow"/>
+                                <stop offset="50%" stop-color="#FFFFFF">
+                                  <animate attributeName="offset" values="0;1;0" dur="2.5s" repeatCount="indefinite"/>
+                                </stop>
+                                <stop offset="100%" stop-color="yellow"/>
+                              </linearGradient>
+                            </defs>
+                            <path class="dash__text--path" pathLength="1" d="M91.6919 9.50542e-06L175.38 1.68216e-05C180.605 1.72784e-05 184.427 4.92751 183.128 9.98867L175.915 38.0965C175.816 38.4809 175.688 38.8638 175.529 39.2273C171.336 48.7872 167.1 49.0987 160.514 50L22.8697 50C16.2833 49.0987 12.0474 48.7871 7.85526 39.2273C7.69586 38.8638 7.56751 38.4809 7.46885 38.0965L0.255346 9.98865C-1.04353 4.92748 2.77906 1.73241e-06 8.00424 2.18921e-06L91.6919 9.50542e-06Z"
+                            stroke="url(#dashTextStrokeGradient)" stroke-width="3"/>
+                            </svg>
+
+                          </div>
+
+                          <svg class="dash__text--svg" width="184" height="50" viewBox="0 0 184 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              
+                              <path  pathLength="1" d="M91.6919 9.50542e-06L175.38 1.68216e-05C180.605 1.72784e-05 184.427 4.92751 183.128 9.98867L175.915 38.0965C175.816 38.4809 175.688 38.8638 175.529 39.2273C171.336 48.7872 167.1 49.0987 160.514 50L22.8697 50C16.2833 49.0987 12.0474 48.7871 7.85526 39.2273C7.69586 38.8638 7.56751 38.4809 7.46885 38.0965L0.255346 9.98865C-1.04353 4.92748 2.77906 1.73241e-06 8.00424 2.18921e-06L91.6919 9.50542e-06Z"
+                              fill="#1B45EA"" />
+                              </svg>
+                        
+          
+                        <div class="dash__text--mask">
+                          <div class="dash__text--slider flex flex-row absolute top-0 left-0 h-full" id="dashTextSlider">
+                            <!-- Dashboard items are created dynamically by checkpoint-controller.js -->
+                            <!-- Items are generated from timeline segments that have checkpointName -->
+                            <!-- The slider width and items are created automatically based on timeline configuration -->
+                          </div>
+                        </div>
+                      </div>
+          
+          
+                      <div class="dash__nav--icons">
+          
+                        <div class="dash__nav--sound" id="soundToggleBtn" style="cursor: pointer;">
+          
+                          <i class="fa-sharp fa-solid fa-volume-high" id="soundIcon"></i>
+          
+                        </div>
+                        
+                        <div class="dash__nav--scroll-mode" id="scrollModeToggleBtn" style="cursor: pointer; display: none;" title="Toggle between checkpoint mode and free scroll">
+          
+                          <i class="fa-sharp fa-solid fa-lock" id="scrollModeIcon"></i>
+          
+                        </div>
+          
+                        <!-- <svg class="" width="201" height="56" viewBox="0 0 201 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100.343 59.5056L0 59.5056L12.3278 10.5345C16.3415 1.13886 20.3553 0.854147 26.6625 0L174.023 0C180.33 0.854147 184.344 1.13886 188.358 10.5345L200.686 59.5056L100.343 59.5056Z" fill="white"/>
+                        </svg> -->
+          
+                        <div class="panel">
+          
+                          <div id="indicatorWater" class="dash__nav--item" data-checkpoint-name="Bericht" data-target-z="-109">
+          
+                            <i class="fa-sharp fa-solid fa-comment-heart"></i>
+          
+                          </div>
+          
+                          <div id="indicatorMessage" class="dash__nav--item" data-checkpoint-name="Media" data-target-z="-160">
+          
+                            <i class="fa-sharp fa-solid fa-camera"></i>
+          
+                          </div>
+          
+                          <div id="indicatorGift" class="dash__nav--item" data-checkpoint-name="Bon" data-target-z="-260">
+          
+                            <i class="fa-sharp fa-solid fa-gift"></i>
+          
+                          </div>
+          
+                        </div>
+          
+          
+                      </div>
+          
+                      <svg class="dash__board" width="389" height="135" viewBox="0 0 389 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M162.5 135H-64L-36.1729 23.8995C-27.1129 2.58373 -18.0529 1.9378 -3.81571 0H328.816C343.053 1.9378 352.113 2.58373 361.173 23.8995L389 135H162.5Z" fill="#25377E"/>
+                      </svg>
+          
+                     
+          
+                    </div>
+                    <!-- <svg class="dash__board--background" width="453" height="135" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 453 135">
+                      <rect width="453" height="135"></rect>
+                      </svg> -->
+
+                      <div class="dash__board--background"></div>
+                    </div>
+
+        <canvas id="scene"></canvas>
+        <svg width="1" height="1" style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+          <defs>
+            <mask id="dropMask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox">
+              <rect width="1" height="1" fill="black"/>
+              <svg viewBox="0 0 700 200" preserveAspectRatio="none" width="1" height="1">
+                <path id="dropMaskPath" class="drop-mask-path-1"  d="M463.31,2s-155.78,0-91.63,54.98,146.62,155.78-31.16,73.31-236.42-32.99-25.66,97.13,169.77,262.08-94.72,86.14-266.32-47.65-123.37,76.97,304.23,216.26,304.23,216.26h458.17L870.16,2h-406.86Z" 
+                      fill="none" 
+                      stroke="white" 
+                      stroke-width="50" 
+                      stroke-dasharray="300 500"
+                      stroke-dashoffset="2000"
+                      stroke-linecap="round"
+                      opacity="1"
+                      style="stroke-dashoffset: 2000; opacity: 1;"/>
+                
+
+                     
+              </svg>
+            </mask>
+          </defs>
+        </svg>
+        <div class="window_frame" id="window_frame"></div>
+        <div class="window_frame--soap" id="window_frame_soap"></div>
+        <div class="lottie-overlay" id="lottieOverlay">
+          <div class="lottie-container" data-lottie-index="0"></div>
+          <div class="lottie-container" data-lottie-index="1"></div>
+          <div class="lottie-container" data-lottie-index="2"></div>
+          <div class="lottie-container" data-lottie-index="3"></div>
+          <div class="lottie-container" data-lottie-index="4"></div>
+          <div class="lottie-container" data-lottie-index="5"></div>
+          <div class="lottie-container" data-lottie-index="6"></div>
+          <div class="lottie-container" data-lottie-index="7"></div>
+        </div>
+        <div class="info" style="z-index: 1000;">
+          <div style="font-size: 24px; font-family: monospace;">Camera Z: <span id="currentZ">-</span></div>
+          <div id="mobileStatus" style="display: none;">Mobile Optimized</div>
+        </div>
+        <!-- Loading Screen Overlay -->
+        <div class="loading-screen" id="loadingScreen">
+          <div class="loading-content">
+            <div class="loading-lottie-container" id="loadingLottieContainer"></div>
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+            <div class="loading-message" id="loadingMessage">Jouw persoonlijke wasstraat wordt geladen...</div>
+          </div>
+        </div>
+          </div>
+
+          <div class="card__back">
+
+        <div class="min-h-screen p-6 flex justify-center" style="z-index: 100000;">
+
+          <div class="btn__flip-card absolute top-[16px] right-[16px] text-[16px] text-black bg-white rounded-full p-4 pb-3 cursor-pointer hover:bg-gray-100 transition-colors" id="btnFlipCard">
+            <i class="fa-sharp fa-solid fa-arrow-rotate-left"></i>
+          </div>
+          <!-- Outer border like the screenshot -->
+          <div class="w-[300px] max-w-full pt-4">
+            <!-- Card -->
+            <div class="relative">
+              <!-- Top (QR area) -->
+              <div class="">
+                <!-- QR frame -->
+                <div class="mx-auto w-[240px] max-w-full rounded-2xl p-4 bg-white p-8 rounded shadow-lg">
+                  <div class="relative aspect-square w-full bg-white">
+                    <!-- Replace this with a real QR image -->
+                    <img
+                      src="_assets/_style/_images/random_qr.png"
+                      alt="QR code"
+                      class="w-full object-contain"
+                    />
+        
+                    <!-- Center logo overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="bg-white ratio-1-1 p-2">
+                       
+                        <img
+                          src="_assets/_style/_images/logo-main.svg"
+                          alt="Logo"
+                          class="h-11 w-11 object-contain"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+                <!-- Value / expiry -->
+                <div class="mt-6 grid grid-cols-2 text-lg">
+                  <div class="text-slate-900 text-xl">Waarde:</div>
+                  <div class="text-right font-semibold text-blue-700 text-xl ">€10</div>
+        
+                  <div class="text-slate-900 text-xl">Geldig tot:</div>
+                  <div class="text-right font-semibold text-blue-700 text-xl">15-01-2026</div>
+                </div>
+        
+                <!-- Buttons -->
+                <div class="mt-6">
+                  <button
+                    class="h-12 rounded-lg border-2 border-blue-600 text-blue-700 font-medium hover:bg-blue-50 w-full font-semibold uppercase"
+                    type="button"
+                  >
+                  <i class="fa-sharp fa-solid fa-wallet"></i> Sla op in wallet
+                  </button>
+                
+                </div>
+        
+                <!-- Divider line -->
+                <div class="mt-6 h-0.5 w-full bg-blue-600"></div>
+              </div>
+        
+              <!-- Bottom instructions block -->
+              <div class="relative">
+                <!-- Left vertical code -->
+                
+        
+                <div class="mx-auto w-full text-slate-900 mt-4">
+                  <p class="text-sm font-medium">
+                    Instructie carwash indien gebruik gemaakt wordt van Totalwash:
+                  </p>
+        
+                  <ul class=" text-sm list-disc list-inside space-y-2 mt-4 mb-4">
+                    <li>
+                      Kies product (wasprogramma),
+                      Kies(deel)betaling, Kies
+                      <span class="underline decoration-red-500 decoration-2">Autowasbon</span>,
+                      scan NU de QR-code
+                    </li>
+                    <li>
+                      Wordt een geldige QR niet herkend? Dan is deze reeds gebruikt of de kassa invoer onjuist
+                    </li>
+                    <li>
+                      Klik hier voor de gebruiksvoorwaarden
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="flex items-center flex-col">
+                  <div class="text-lg tracking-wider text-slate-900 text-center">
+                    1026733-134321 9297351039
+                  </div>
+               
+
+                <img
+                          src="_assets/_style/_images/barcode.png"
+                          alt="Barcode"
+                          class="w-full max-w-[240px] object-cover mix-blend-multiply"
+                        />
+
+                      </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      <button class="ratio-toggle-btn" id="ratioToggleBtn" style="display: none;">Switch to 9:16</button>
+      <button class="scroll-mode-btn checkpoint-mode" id="scrollModeBtn" style="display: none;">Checkpoint Mode</button>
+      <button class="flip-card-btn" id="flipCardBtn" style="display: none;">Flip Card</button>
+      
+
+    </section>
+  </div>
+</main>
+
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+  import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+  
+  // Make GLTFLoader available globally
+  window.GLTFLoader = GLTFLoader;
+  
+  // Trigger a custom event when loader is ready
+  window.dispatchEvent(new Event('gltfloader-ready'));
+</script>
+<script type="module" src="_assets/_components/scene-setup.js"></script>
+<script type="module" src="_assets/_components/font-loader.js"></script>
+<script type="module" src="_assets/_components/camera-controller.js"></script>
+<script type="module" src="_assets/_components/checkpoint-controller.js"></script>
+<script type="module" src="_assets/_components/station-loader.js"></script>
+<script type="module" src="_assets/_components/lottie-zindex-trigger.js"></script>
+<script type="module" src="_assets/_components/carwash-main.js"></script>
+<script type="module" src="_assets/_components/lottie-mask.js"></script>
+<script type="module">
+  // Initialize checkpoint controller after camera controller is ready
+  import { CheckpointController } from './_assets/_components/checkpoint-controller.js';
+  
+  window.initCheckpointController = function() {
+    if (!window.cameraController || !window.cameraController.camera) {
+      // Wait for camera controller and retry
+      setTimeout(window.initCheckpointController, 100);
+      return;
+    }
+    
+    // Initialize checkpoint controller
+    window.checkpointController = new CheckpointController(window.cameraController);
+    
+    // Sync checkpoint index with current camera position
+    window.checkpointController.syncWithCameraPosition();
+    
+    console.log('Checkpoint controller initialized');
+    
+    // Set up button handler after checkpoint controller initializes (which replaces dash__text element)
+    // Wait a bit for the checkpoint controller to finish setting up dashboard items
+    setTimeout(() => {
+      if (window.setupDashTextButton) {
+        window.setupDashTextButton();
+      }
+    }, 300);
+    
+    // Initialize timeline editor (can be easily disabled by commenting out)
+    initTimelineEditor();
+  };
+  
+  // Initialize timeline editor
+  async function initTimelineEditor() {
+    try {
+      const { TimelineEditor } = await import('./_assets/_components/timeline-editor.js');
+      
+      // Wait for checkpoint controller
+      const checkController = setInterval(() => {
+        if (window.checkpointController && window.cameraController) {
+          clearInterval(checkController);
+          
+          // Create timeline editor instance
+          window.timelineEditor = new TimelineEditor(window.checkpointController, window.cameraController);
+          
+          // Create toggle button
+          const toggleBtn = document.createElement('button');
+          toggleBtn.className = 'timeline-editor-toggle';
+          toggleBtn.innerHTML = '⏱️';
+          toggleBtn.title = 'Open Timeline Editor';
+          toggleBtn.addEventListener('click', () => {
+            window.timelineEditor.toggle();
+          });
+          document.body.appendChild(toggleBtn);
+          
+          console.log('Timeline editor initialized');
+        }
+      }, 100);
+      
+      // Stop checking after 10 seconds
+      setTimeout(() => clearInterval(checkController), 10000);
+    } catch (error) {
+      console.warn('Timeline editor not available:', error);
+    }
+  }
+  
+  // Try to initialize immediately, or wait for camera controller
+  if (window.cameraController && window.cameraController.camera) {
+    window.initCheckpointController();
+  } else {
+    // Wait for camera controller to be available
+    const checkCamera = setInterval(() => {
+      if (window.cameraController && window.cameraController.camera) {
+        clearInterval(checkCamera);
+        window.initCheckpointController();
+      }
+    }, 100);
+    
+    // Stop checking after 10 seconds
+    setTimeout(() => clearInterval(checkCamera), 10000);
+  }
+</script>
+<script type="module">
+  // All JavaScript code has been moved to separate module files:
+  // - carwash-config.js: Configuration constants
+  // - station-config.js: Station configuration
+  // - checkpoint-config.js: Checkpoint timeline configuration (named checkpoints for navigation)
+  // - texture-manager.js: Texture loading and UV mapping
+  // - lottie-manager.js: Lottie animation handling
+  // - animation-controller.js: Animation loop and object animations
+  // - uv-mapping-config.js: UV mapping configurations
+  // - checkpoint-controller.js: Checkpoint navigation for scroll and dashboard clicks
+  // - carwash-main.js: Main initialization and orchestration
+</script>
+<script>
+  // ===== CONFIGURATION =====
+  // Set to true for checkpoint mode (scroll triggers next item)
+  // Set to false for free scroll mode (normal scrolling)
+  let USE_CHECKPOINT_SCROLL = false; // Default: false (free scroll mode)
+  
+  // Make it globally available so camera controller can check it
+  window.USE_CHECKPOINT_SCROLL = USE_CHECKPOINT_SCROLL;
+  
+  // Function to toggle checkpoint mode
+  function toggleCheckpointMode() {
+    USE_CHECKPOINT_SCROLL = !USE_CHECKPOINT_SCROLL;
+    window.USE_CHECKPOINT_SCROLL = USE_CHECKPOINT_SCROLL;
+    
+    // Update button icon
+    updateScrollModeButton();
+    
+    console.log('Checkpoint mode:', USE_CHECKPOINT_SCROLL ? 'ENABLED' : 'DISABLED');
+    
+    return USE_CHECKPOINT_SCROLL;
+  }
+  
+  // Function to update scroll mode button appearance
+  function updateScrollModeButton() {
+    const scrollModeBtn = document.getElementById('scrollModeToggleBtn');
+    const scrollModeIcon = document.getElementById('scrollModeIcon');
+    
+    if (!scrollModeBtn || !scrollModeIcon) return;
+    
+    if (USE_CHECKPOINT_SCROLL) {
+      // Checkpoint mode - show lock icon
+      scrollModeIcon.className = 'fa-sharp fa-solid fa-lock';
+      scrollModeBtn.classList.remove('free-mode');
+      scrollModeBtn.classList.add('checkpoint-mode');
+      scrollModeBtn.title = 'Checkpoint Mode - Click to enable free scroll';
+    } else {
+      // Free scroll mode - show unlock icon
+      scrollModeIcon.className = 'fa-sharp fa-solid fa-lock-open';
+      scrollModeBtn.classList.remove('checkpoint-mode');
+      scrollModeBtn.classList.add('free-mode');
+      scrollModeBtn.title = 'Free Scroll Mode - Click to enable checkpoint mode';
+    }
+  }
+  
+  // ===== SLIDER TRACKING =====
+  // Slider position tracking
+  let currentSliderIndex = -1; // Start at -1 so first scroll goes to index 0
+  let isAnimating = false; // Track if animation is in progress
+  let currentAnimationFrame = null; // Store current animation frame request ID
+  
+  // Expose isAnimating globally so camera controller can check it
+  // This will be updated to use checkpoint controller once it's initialized
+  window.dashboardIsAnimating = () => {
+    if (window.checkpointController) {
+      return window.checkpointController.isAnimationInProgress();
+    }
+    return isAnimating;
+  };
+  
+  // Get total number of items dynamically
+  function getTotalItems() {
+    const items = document.querySelectorAll('.dash__text--item');
+    return items.length;
+  }
+  
+  // Get all items with their data
+  function getItemsData() {
+    const items = document.querySelectorAll('.dash__text--item');
+    return Array.from(items).map(item => ({
+      element: item,
+      zIndex: parseFloat(item.getAttribute('data-z-index')),
+      speed: parseFloat(item.getAttribute('data-speed')),
+      ease: item.getAttribute('data-ease'),
+      index: parseInt(item.getAttribute('data-index'))
+    }));
+  }
+  
+  // Easing functions
+  function applyEasing(progress, easingType) {
+    if (progress <= 0) return 0;
+    if (progress >= 1) return 1;
+    
+    switch (easingType) {
+      case 'linear':
+        return progress;
+      case 'ease':
+      case 'easeInOut':
+        // Cubic ease in-out
+        return progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      case 'easeIn':
+        // Cubic ease in
+        return progress * progress * progress;
+      case 'easeOut':
+        // Cubic ease out
+        return 1 - Math.pow(1 - progress, 3);
+      default:
+        return progress;
+    }
+  }
+  
+  // Animate camera to target z position with speed and easing
+  function animateCameraToZ(zIndex, speed, ease, itemIndex, allowInterrupt = false) {
+    const cameraController = window.cameraController;
+    
+    if (!cameraController || !cameraController.camera) {
+      console.warn('Camera controller not yet available');
+      return false;
+    }
+    
+    // If animation is in progress and interruption is not allowed, return false
+    if (isAnimating && !allowInterrupt) {
+      return false;
+    }
+    
+    // Cancel any ongoing animation if interrupting
+    if (isAnimating && allowInterrupt && currentAnimationFrame !== null) {
+      cancelAnimationFrame(currentAnimationFrame);
+      currentAnimationFrame = null;
+    }
+    
+    // Set animation flag
+    isAnimating = true;
+    
+    const camera = cameraController.camera;
+    const startZ = camera.position.z;
+    const targetZ = zIndex;
+    const duration = speed * 1000; // Convert to milliseconds
+    const startTime = Date.now();
+    
+    // Animate camera
+    function animateCamera() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      const easedProgress = applyEasing(progress, ease);
+      
+      const currentZ = startZ + (targetZ - startZ) * easedProgress;
+      camera.position.z = currentZ;
+      cameraController.targetZ = currentZ;
+      
+      if (progress < 1) {
+        currentAnimationFrame = requestAnimationFrame(animateCamera);
+      } else {
+        // Ensure exact final position
+        camera.position.z = targetZ;
+        cameraController.targetZ = targetZ;
+        
+        // Animation complete - re-enable scrolling
+        isAnimating = false;
+        currentAnimationFrame = null;
+      }
+    }
+    
+    currentAnimationFrame = requestAnimationFrame(animateCamera);
+    
+    // Move slider to show the current item
+    moveSliderToIndex(itemIndex);
+    return true;
+  }
+  
+  // Go to next item (triggered by scroll)
+  function goToNextItem() {
+    // Don't proceed if animation is in progress
+    if (isAnimating) {
+      return;
+    }
+    
+    const items = getItemsData();
+    const totalItems = items.length;
+    
+    // Move to next item
+    const nextIndex = currentSliderIndex + 1;
+    
+    // Don't go past the last item
+    if (nextIndex >= totalItems) {
+      return;
+    }
+    
+    // Don't go before the first item
+    if (nextIndex < 0) {
+      return;
+    }
+    
+    // Find the item at the next index
+    const nextItem = items.find(item => item.index === nextIndex);
+    if (nextItem) {
+      animateCameraToZ(nextItem.zIndex, nextItem.speed, nextItem.ease, nextItem.index);
+    }
+  }
+  
+  // Go to previous item (for backward scrolling)
+  function goToPreviousItem() {
+    // Don't proceed if animation is in progress
+    if (isAnimating) {
+      return;
+    }
+    
+    const items = getItemsData();
+    
+    // Move to previous item
+    const prevIndex = currentSliderIndex - 1;
+    
+    // Don't go before the first item
+    if (prevIndex < 0) {
+      return;
+    }
+    
+    // Find the item at the previous index
+    const prevItem = items.find(item => item.index === prevIndex);
+    if (prevItem) {
+      animateCameraToZ(prevItem.zIndex, prevItem.speed, prevItem.ease, prevItem.index);
+    }
+  }
+  
+  // Move slider to show a specific item index
+  function moveSliderToIndex(targetIndex) {
+    const slider = document.getElementById('dashTextSlider');
+    if (!slider) return;
+    
+    const totalItems = getTotalItems();
+    
+    // Don't move past the last item
+    if (targetIndex >= totalItems) {
+      targetIndex = totalItems - 1;
+    }
+    
+    // Don't move before the first item (but allow -1 for initial state)
+    if (targetIndex < -1) {
+      targetIndex = -1;
+    }
+    
+    currentSliderIndex = targetIndex;
+    
+    // Calculate translateX: 
+    // The slider width is based on the number of items (e.g., 600% for 6 items)
+    // Each item is 100% of the container width
+    // translateX percentages are relative to the element's own width
+    // So to move one item, we need: (100 / totalItems) % of the slider's width
+    // For 6 items: 100 / 6 = ~16.6667% per item
+    // If targetIndex is -1, show first item (translateX = 0)
+    const percentPerItem = 100 / totalItems;
+    const displayIndex = targetIndex < 0 ? 0 : targetIndex;
+    const translateX = -(displayIndex * percentPerItem);
+    
+    // Apply transition and transform
+    slider.style.transition = 'transform 0.5s ease-in-out';
+    slider.style.transform = `translateX(${translateX}%)`;
+  }
+  
+  // Setup handler for dash__text--button to continue timeline or move to next checkpoint
+  // Helper function to load and play overlay lottie
+  async function loadAndPlayOverlayLottie(url, containerIndex = 0) {
+    const overlay = document.getElementById('lottieOverlay');
+    if (!overlay) {
+      console.warn('Lottie overlay not found');
+      return null;
+    }
+    
+    const containers = overlay.querySelectorAll('.lottie-container');
+    if (containerIndex >= containers.length) {
+      console.warn(`Lottie container index ${containerIndex} out of range`);
+      return null;
+    }
+    
+    const container = containers[containerIndex];
+    
+    if (typeof lottie === 'undefined') {
+      console.warn('Lottie library not loaded yet. Retrying in 100ms...');
+      setTimeout(() => loadAndPlayOverlayLottie(url, containerIndex), 100);
+      return null;
+    }
+    
+    // Clear any existing animation
+    container.innerHTML = '';
+    
+    // Start-button Lottie URL: apply contain styling only to this one
+    const START_BUTTON_LOTTIE_URL = 'https://lottie.host/2e725065-e904-49db-b6bf-d1c935cd6ad1/RGeGDbsxaX.lottie';
+    const isStartButtonLottie = (url && url.indexOf('RGeGDbsxaX.lottie') !== -1) || url === START_BUTTON_LOTTIE_URL;
+    if (isStartButtonLottie) {
+      container.classList.add('lottie-container--start-animation');
+    } else {
+      container.classList.remove('lottie-container--start-animation');
+    }
+    
+    try {
+      let animation;
+      
+      // For .lottie files, we need to manually extract JSON since the library doesn't handle them natively
+      if (url.endsWith('.lottie')) {
+        if (typeof JSZip === 'undefined') {
+          console.error('JSZip is required for .lottie files. Please include JSZip library.');
+          return null;
+        }
+        
+        try {
+          // Fetch the .lottie file
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch Lottie file: ${response.statusText}`);
+          }
+          
+          const blob = await response.blob();
+          let animationData = null;
+          
+          // Try parsing as JSON first (some .lottie files are actually JSON)
+          const text = await blob.text();
+          try {
+            const parsed = JSON.parse(text);
+            // Validate it looks like Lottie animation data
+            if (parsed && (parsed.layers || parsed.assets || parsed.fr !== undefined)) {
+              animationData = parsed;
+            }
+          } catch (jsonError) {
+            // Not JSON, will try as ZIP below
+          }
+          
+          // If not JSON, try as ZIP
+          let zip = null;
+          if (!animationData) {
+            const zipBlob = await fetch(url).then(r => r.blob());
+            zip = await JSZip.loadAsync(zipBlob);
+            const fileNames = Object.keys(zip.files);
+            
+            // Try to find the animation JSON file
+            const possibleJsonNames = ['data.json', 'animation.json', 'comp.json'];
+            for (const jsonName of possibleJsonNames) {
+              if (zip.files[jsonName] && !zip.files[jsonName].dir) {
+                const jsonContent = await zip.files[jsonName].async('string');
+                const parsed = JSON.parse(jsonContent);
+                if (parsed && (parsed.layers || parsed.assets || parsed.fr !== undefined)) {
+                  animationData = parsed;
+                  break;
+                }
+              }
+            }
+            
+            // If not found, look for any .json file
+            if (!animationData) {
+              for (const fileName of fileNames) {
+                if (fileName.endsWith('.json') && !zip.files[fileName].dir) {
+                  const jsonContent = await zip.files[fileName].async('string');
+                  const parsed = JSON.parse(jsonContent);
+                  if (parsed && (parsed.layers || parsed.assets || parsed.fr !== undefined)) {
+                    animationData = parsed;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          
+          if (!animationData) {
+            throw new Error('No JSON animation data found in .lottie file');
+          }
+          
+          // Ensure layers array exists (required by Lottie library)
+          if (!animationData.layers) {
+            animationData.layers = [];
+          }
+          
+          // Ensure assets array exists (if not present)
+          if (!animationData.assets) {
+            animationData.assets = [];
+          }
+          
+          // Ensure basic required properties exist
+          if (animationData.fr === undefined) {
+            animationData.fr = 30; // Default frame rate
+          }
+          
+          // Handle image assets from the .lottie file
+          if (animationData.assets && zip) {
+            const imagePromises = [];
+            
+            for (const asset of animationData.assets) {
+              if (asset.p && asset.p.trim() !== '') {
+                const imagePath = asset.p;
+                const imageFileName = imagePath.split('/').pop() || imagePath.split('\\').pop();
+                
+                let imageFile = null;
+                zip.forEach((relativePath, file) => {
+                  if (!file.dir) {
+                    const fileName = relativePath.split('/').pop() || relativePath.split('\\').pop();
+                    const normalizedPath = relativePath.replace(/\\/g, '/');
+                    const normalizedImagePath = imagePath.replace(/\\/g, '/');
+                    
+                    if (normalizedPath === normalizedImagePath || normalizedPath === `images/${imageFileName}`) {
+                      imageFile = file;
+                    } else if (normalizedPath.startsWith('images/') && fileName === imageFileName) {
+                      imageFile = file;
+                    } else if (fileName === imageFileName) {
+                      imageFile = file;
+                    }
+                  }
+                });
+                
+                if (imageFile) {
+                  const imagePromise = (async () => {
+                    try {
+                      const imageBlob = await imageFile.async('blob');
+                      const blobUrl = URL.createObjectURL(imageBlob);
+                      
+                      const img = new Image();
+                      await new Promise((resolve, reject) => {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                        img.src = blobUrl;
+                      });
+                      
+                      if (!animationData._blobUrls) {
+                        animationData._blobUrls = [];
+                      }
+                      animationData._blobUrls.push(blobUrl);
+                      
+                      asset._img = img;
+                      asset.p = blobUrl;
+                      asset.e = 1;
+                      asset.u = '';
+                      
+                      return { asset, blobUrl };
+                    } catch (error) {
+                      console.warn(`Failed to convert image ${imageFileName} to blob URL:`, error);
+                      return null;
+                    }
+                  })();
+                  
+                  imagePromises.push(imagePromise);
+                }
+              }
+            }
+            
+            // Wait for all images to be loaded
+            await Promise.all(imagePromises);
+          }
+          
+          // Load animation with extracted animationData
+          const animConfig = {
+            container: container,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            animationData: animationData
+          };
+          
+          // If we have blob URLs, configure to use them directly
+          if (animationData._blobUrls && animationData._blobUrls.length > 0) {
+            animConfig.assetsPath = '';
+          }
+          
+          animation = lottie.loadAnimation(animConfig);
+          
+          // Store blob URLs cleanup function on animation for later cleanup
+          if (animationData._blobUrls && animationData._blobUrls.length > 0) {
+            animation._blobUrls = animationData._blobUrls;
+          }
+          
+        } catch (error) {
+          console.error(`Error processing .lottie file from ${url}:`, error);
+          return null;
+        }
+      } else {
+        // For regular JSON URLs, use path parameter
+        animation = lottie.loadAnimation({
+          container: container,
+          renderer: 'svg',
+          loop: false,
+          autoplay: false,
+          path: url
+        });
+      }
+      
+      // Show container and play animation
+      container.classList.add('active');
+      
+      // For start-button Lottie only: ensure SVG contains within container
+      const ensureSVGContain = () => {
+        if (!container.classList.contains('lottie-container--start-animation')) return;
+        const svg = container.querySelector('svg');
+        if (svg) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+          svg.style.width = '100%';
+          svg.style.height = '100%';
+          svg.style.maxWidth = '100%';
+          svg.style.maxHeight = '100%';
+          svg.style.objectFit = 'contain';
+        }
+      };
+      
+      if (isStartButtonLottie) {
+        animation.addEventListener('DOMLoaded', ensureSVGContain);
+        animation.addEventListener('data_ready', ensureSVGContain);
+        setTimeout(ensureSVGContain, 100);
+      } else {
+        const ensureSVGStretch = () => {
+          const svg = container.querySelector('svg');
+          if (svg) {
+            svg.setAttribute('preserveAspectRatio', 'none');
+            svg.style.width = '100%';
+            svg.style.height = '100%';
+          }
+        };
+        animation.addEventListener('DOMLoaded', ensureSVGStretch);
+        animation.addEventListener('data_ready', ensureSVGStretch);
+        setTimeout(ensureSVGStretch, 100);
+      }
+      
+      animation.play();
+      
+      return animation;
+    } catch (error) {
+      console.error(`Error loading Lottie animation:`, error);
+      return null;
+    }
+  }
+
+  // This must be called after checkpoint controller initializes (which replaces the dash__text element)
+  window.setupDashTextButton = function() {
+    const carwashStart = document.getElementById('carwashStart');
+    if (!carwashStart) {
+      // Retry after a short delay if element not found (might not be ready yet)
+      setTimeout(setupDashTextButton, 100);
+      return;
+    }
+    
+    // Remove any existing handlers first
+    const newButton = carwashStart.cloneNode(true);
+    carwashStart.parentNode.replaceChild(newButton, carwashStart);
+    
+    const handleButtonClick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Start background music only when user presses Start
+      if (window.soundEffectsController && typeof window.soundEffectsController.startBackgroundMusic === 'function') {
+        window.soundEffectsController.startBackgroundMusic();
+      }
+      
+      // Hide SVG after first click
+      newButton.classList.add('clicked');
+      
+      // Hide the SVG inside the button
+      const buttonSvg = newButton.querySelector('.dash__text--svg');
+      if (buttonSvg) {
+        buttonSvg.style.display = 'none';
+      }
+      
+      // Set opacity of dash__text--mask to 0.2
+      const dashTextMask = document.querySelector('.dash__text--mask');
+      if (dashTextMask) {
+        dashTextMask.style.opacity = '0.2';
+      }
+      
+      // Play overlay lottie (fire-and-forget, do not wait for completion)
+      const overlayLottieUrl = 'https://lottie.host/2e725065-e904-49db-b6bf-d1c935cd6ad1/RGeGDbsxaX.lottie';
+      loadAndPlayOverlayLottie(overlayLottieUrl, 0);
+      
+      // Play stoplicht lotties (station front traffic lights) from frame 0
+      if (window.lottieManager && window.lottieManager.lottieAnimations) {
+        const stoplichtL = window.lottieManager.lottieAnimations.find(anim => anim.layerName === 'lot__stoplicht--L');
+        const stoplichtR = window.lottieManager.lottieAnimations.find(anim => anim.layerName === 'lot__stoplicht--R');
+        
+        const playStoplicht = (entry) => {
+          if (!entry || !entry.anim) return;
+          entry.anim.setLoop(false);
+          entry.anim.goToAndStop(0, true);
+          entry.playCount = 0;
+          entry.stopped = false;
+          entry.anim.play();
+          entry.started = true;
+        };
+        playStoplicht(stoplichtL);
+        playStoplicht(stoplichtR);
+      }
+      
+      // Start timeline after 3.5 seconds
+      setTimeout(() => {
+        if (window.checkpointController) {
+          const success = window.checkpointController.goToNextPoint(true);
+          if (success) {
+            console.log('Started following points array sequentially');
+          } else {
+            console.log('Cannot start - already at last checkpoint or animation in progress');
+          }
+        }
+      }, 4000);
+    };
+    
+    newButton.addEventListener('click', handleButtonClick);
+    newButton.addEventListener('touchstart', handleButtonClick);
+    
+    console.log('Dash text button handler set up');
+  };
+  
+  // Setup event listeners for dashboard text items using checkpoint controller
+  function setupDashboardTextHandlers() {
+    
+    // Setup handlers for text items
+    const textItems = document.querySelectorAll('.dash__text--item');
+    
+    textItems.forEach(item => {
+      // Get checkpoint name from data attribute
+      const checkpointName = item.getAttribute('data-checkpoint-name');
+      
+      if (!checkpointName) {
+        console.warn('Dashboard item missing data-checkpoint-name attribute:', item);
+        return;
+      }
+      
+      item.addEventListener('click', function() {
+        // Use checkpoint controller if available
+        if (window.checkpointController) {
+          // Jump to checkpoint by name (only if it's ahead in timeline - forward only)
+          const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+          if (!success) {
+            // Check if it's because it's behind current position
+            const targetIndex = window.checkpointController.checkpoints.findIndex(cp => cp.name === checkpointName);
+            const currentIndex = window.checkpointController.currentCheckpointIndex;
+            if (targetIndex !== -1 && targetIndex <= currentIndex) {
+              console.log(`Cannot jump to "${checkpointName}" - it's at or before current position. Can only move forward.`);
+            } else {
+              console.warn(`Checkpoint "${checkpointName}" not found. Available checkpoints:`, 
+                window.checkpointController.checkpoints.map(cp => cp.name));
+            }
+          }
+        } else {
+          // Fallback: wait for checkpoint controller
+          const checkController = setInterval(() => {
+            if (window.checkpointController) {
+              clearInterval(checkController);
+              const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+              if (!success) {
+                console.warn(`Checkpoint "${checkpointName}" not found or cannot move backward`);
+              }
+            }
+          }, 100);
+          
+          // Stop checking after 10 seconds
+          setTimeout(() => clearInterval(checkController), 10000);
+        }
+      });
+      
+      item.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        // Use checkpoint controller if available
+        if (window.checkpointController) {
+          // Jump to checkpoint by name (only if it's ahead in timeline - forward only)
+          const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+          if (!success) {
+            const targetIndex = window.checkpointController.checkpoints.findIndex(cp => cp.name === checkpointName);
+            const currentIndex = window.checkpointController.currentCheckpointIndex;
+            if (targetIndex !== -1 && targetIndex <= currentIndex) {
+              console.log(`Cannot jump to "${checkpointName}" - can only move forward`);
+            } else {
+              console.warn(`Checkpoint "${checkpointName}" not found`);
+            }
+          }
+        }
+      });
+      
+      // Add cursor pointer style
+      item.style.cursor = 'pointer';
+    });
+    
+    // Setup handlers for navigation icon items
+    const navItems = document.querySelectorAll('.dash__nav--item[data-checkpoint-name]');
+    
+    navItems.forEach(item => {
+      // Get checkpoint name from data attribute
+      const checkpointName = item.getAttribute('data-checkpoint-name');
+      
+      if (!checkpointName) {
+        return;
+      }
+      
+      item.addEventListener('click', function() {
+        // Use checkpoint controller if available
+        if (window.checkpointController) {
+          // Jump to checkpoint by name (only if it's ahead in timeline - forward only)
+          const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+          if (!success) {
+            // Check if it's because it's behind current position
+            const targetIndex = window.checkpointController.checkpoints.findIndex(cp => cp.name === checkpointName);
+            const currentIndex = window.checkpointController.currentCheckpointIndex;
+            if (targetIndex !== -1 && targetIndex <= currentIndex) {
+              console.log(`Cannot jump to "${checkpointName}" - it's at or before current position. Can only move forward.`);
+            } else {
+              console.warn(`Checkpoint "${checkpointName}" not found. Available checkpoints:`, 
+                window.checkpointController.checkpoints.map(cp => cp.name));
+            }
+          }
+        } else {
+          // Fallback: wait for checkpoint controller
+          const checkController = setInterval(() => {
+            if (window.checkpointController) {
+              clearInterval(checkController);
+              const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+              if (!success) {
+                console.warn(`Checkpoint "${checkpointName}" not found or cannot move backward`);
+              }
+            }
+          }, 100);
+          
+          // Stop checking after 10 seconds
+          setTimeout(() => clearInterval(checkController), 10000);
+        }
+      });
+      
+      item.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        // Use checkpoint controller if available
+        if (window.checkpointController) {
+          // Jump to checkpoint by name (only if it's ahead in timeline - forward only)
+          const success = window.checkpointController.jumpToCheckpointByName(checkpointName, true);
+          if (!success) {
+            const targetIndex = window.checkpointController.checkpoints.findIndex(cp => cp.name === checkpointName);
+            const currentIndex = window.checkpointController.currentCheckpointIndex;
+            if (targetIndex !== -1 && targetIndex <= currentIndex) {
+              console.log(`Cannot jump to "${checkpointName}" - can only move forward`);
+            } else {
+              console.warn(`Checkpoint "${checkpointName}" not found`);
+            }
+          }
+        }
+      });
+      
+      // Add cursor pointer style
+      item.style.cursor = 'pointer';
+    });
+  }
+  
+  // Setup scroll and touch handlers using checkpoint controller
+  // Works on both desktop (wheel scroll) and mobile (touch swipe)
+  // Scroll UP / Swipe UP = Next checkpoint
+  // Scroll DOWN / Swipe DOWN = Previous checkpoint
+  function setupScrollHandlers() {
+    // Only set up checkpoint scroll handlers if checkpoint mode is enabled
+    if (!USE_CHECKPOINT_SCROLL) {
+      return; // Let the camera controller handle scrolling normally
+    }
+    
+    const card = document.querySelector('.card');
+    if (!card) return;
+    
+    let lastWheelTime = 0;
+    let touchStartY = null;
+    let touchStartTime = null;
+    const touchThreshold = 30; // Minimum touch swipe distance
+    
+    // Desktop: Wheel scroll handler
+    // Use capture phase to run before camera controller's handler
+    // Scroll up (negative deltaY) = next checkpoint
+    // Scroll down (positive deltaY) = previous checkpoint
+    card.addEventListener('wheel', (e) => {
+      // Check current mode - if checkpoint mode is disabled, let camera controller handle it
+      if (!USE_CHECKPOINT_SCROLL) {
+        return; // Let camera controller handle free scroll
+      }
+      
+      // Wait for checkpoint controller if not available yet
+      if (!window.checkpointController) {
+        // If checkpoint mode is enabled, prevent default to stop camera controller
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      
+      // Don't allow scrolling if animation is in progress
+      if (window.checkpointController.isAnimationInProgress()) {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent camera controller from handling it
+        return;
+      }
+      
+      e.preventDefault();
+      e.stopPropagation(); // Prevent camera controller from handling it
+      
+      const now = Date.now();
+      const timeDelta = now - lastWheelTime;
+      lastWheelTime = now;
+      
+      // Throttle scroll events (minimum 300ms between triggers)
+      if (timeDelta < 300) {
+        return;
+      }
+      
+      // Use checkpoint controller to handle scroll
+      window.checkpointController.handleScroll(e.deltaY);
+    }, { passive: false, capture: true }); // Use capture phase to run first
+    
+    // Mobile: Touch start handler
+    card.addEventListener('touchstart', (e) => {
+      // Use checkpoint controller if available
+      if (!window.checkpointController) {
+        return;
+      }
+      
+      // Don't allow touch if animation is in progress
+      if (window.checkpointController.isAnimationInProgress()) {
+        return;
+      }
+      
+      if (e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+      }
+    }, { passive: true });
+    
+    // Mobile: Touch move handler
+    // Swipe up (positive deltaY) = next checkpoint
+    // Swipe down (negative deltaY) = previous checkpoint
+    // Use capture phase to run before camera controller's handler
+    card.addEventListener('touchmove', (e) => {
+      // Check current mode - if checkpoint mode is disabled, let camera controller handle it
+      if (!USE_CHECKPOINT_SCROLL) {
+        return; // Let camera controller handle free scroll
+      }
+      
+      // Use checkpoint controller if available
+      if (!window.checkpointController) {
+        return;
+      }
+      
+      // Don't allow touch if animation is in progress
+      if (window.checkpointController.isAnimationInProgress() || touchStartY === null) {
+        return;
+      }
+      
+      if (e.touches.length !== 1) return;
+      
+      e.preventDefault();
+      e.stopPropagation(); // Prevent camera controller from handling it
+      
+      const currentY = e.touches[0].clientY;
+      const deltaY = touchStartY - currentY; // Positive = swipe up, Negative = swipe down
+      const timeDelta = Date.now() - touchStartTime;
+      
+      // Check if swipe is significant enough
+      if (Math.abs(deltaY) > touchThreshold && timeDelta < 500) {
+        // Use checkpoint controller to handle swipe
+        window.checkpointController.handleTouchSwipe(deltaY);
+        
+        // Reset touch tracking
+        touchStartY = null;
+        touchStartTime = null;
+      }
+    }, { passive: false, capture: true }); // Use capture phase to run first
+    
+    // Touch end handler
+    card.addEventListener('touchend', () => {
+      touchStartY = null;
+      touchStartTime = null;
+    });
+  }
+  
+  // Initialize checkpoint controller when camera controller is ready
+  function initializeCheckpointController() {
+    if (!window.cameraController || !window.cameraController.camera) {
+      // Wait for camera controller and retry
+      setTimeout(initializeCheckpointController, 100);
+      return;
+    }
+    
+    // Checkpoint controller will be initialized in a module script below
+    // This function will be called from there
+    if (window.initCheckpointController) {
+      window.initCheckpointController();
+      
+      // Set up button handler after checkpoint controller initializes
+      // Wait a bit for the checkpoint controller to finish setting up
+      setTimeout(() => {
+        setupDashTextButton();
+      }, 200);
+    }
+  }
+  
+  // Mobile Safari mask animation fallback
+  // CSS animations on SVG paths inside masks don't work reliably on mobile Safari
+  function setupMobileSafariMaskAnimation() {
+    // Enhanced Safari detection - check multiple methods
+    const userAgent = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    const vendor = navigator.vendor || '';
+    
+    // Check for iOS devices (iPhone, iPad, iPod)
+    const isIOSDevice = /iPhone|iPad|iPod/i.test(userAgent) || 
+                       /iPhone|iPad|iPod/i.test(platform) ||
+                       (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    // Check for Safari browser (not Chrome, Firefox, etc.)
+    const isSafari = /Safari/i.test(userAgent) && 
+                    !/Chrome|CriOS|FxiOS|OPiOS|Edg/i.test(userAgent) &&
+                    /Apple/i.test(vendor);
+    
+    // Also check for WebKit (Safari uses WebKit)
+    const isWebKit = /WebKit/i.test(userAgent) && !/Chrome/i.test(userAgent);
+    
+    // Mobile Safari detection
+    const isMobileSafari = isIOSDevice && (isSafari || isWebKit);
+    
+    // For testing: uncomment to force enable on all devices
+    // const isMobileSafari = true;
+    
+    if (!isMobileSafari) {
+      console.log('Not mobile Safari, using CSS animation');
+      return;
+    }
+    
+    console.log('Mobile Safari detected, using JavaScript animation fallback');
+    
+    // Prevent multiple initializations
+    if (window.maskAnimationInitialized) {
+      return;
+    }
+    window.maskAnimationInitialized = true;
+    
+    const maskPath = document.getElementById('dropMaskPath');
+    if (!maskPath) {
+      // Retry after a short delay if element not found
+      setTimeout(setupMobileSafariMaskAnimation, 100);
+      return;
+    }
+    
+    // Cancel any existing animation
+    if (window.maskAnimationId) {
+      cancelAnimationFrame(window.maskAnimationId);
+    }
+    
+    // Disable CSS animation on mobile Safari
+    maskPath.classList.remove('drop-mask-path-1');
+    maskPath.style.animation = 'none';
+    maskPath.style.webkitAnimation = 'none';
+    
+    // Set initial state using setAttribute for better Safari compatibility
+    maskPath.setAttribute('opacity', '0');
+    maskPath.setAttribute('stroke-dashoffset', '2000');
+    // Also set via style as fallback
+    maskPath.style.opacity = '0';
+    maskPath.style.strokeDashoffset = '2000';
+    
+    // Ensure stroke-dasharray is set
+    if (!maskPath.getAttribute('stroke-dasharray')) {
+      maskPath.setAttribute('stroke-dasharray', '300 500');
+    }
+    
+    let startTime = null;
+    const duration = 5000; // 5 seconds
+    const startOffset = 2000;
+    const endOffset = 0;
+    
+    function animate(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = (elapsed % duration) / duration;
+      
+      // Match CSS animation exactly:
+      // 0-10%: fade in, dashoffset stays at 2000
+      // 10-90%: full opacity, dashoffset animates from 2000 to 0
+      // 90-100%: fade out, dashoffset at 0
+      let opacity = 1;
+      let dashOffset = startOffset;
+      
+      if (progress < 0.1) {
+        // Fade in (0-10%)
+        opacity = progress / 0.1;
+        dashOffset = startOffset;
+      } else if (progress < 0.9) {
+        // Full visibility (10-90%)
+        opacity = 1;
+        const pathProgress = (progress - 0.1) / 0.8; // 0 to 1 over 80% of animation
+        dashOffset = startOffset - (startOffset * pathProgress);
+      } else {
+        // Fade out (90-100%)
+        opacity = 1 - ((progress - 0.9) / 0.1);
+        dashOffset = endOffset;
+      }
+      
+      // Use both setAttribute and style for maximum compatibility
+      maskPath.setAttribute('opacity', opacity.toString());
+      maskPath.setAttribute('stroke-dashoffset', dashOffset.toString());
+      maskPath.style.opacity = opacity;
+      maskPath.style.strokeDashoffset = dashOffset;
+      
+      window.maskAnimationId = requestAnimationFrame(animate);
+    }
+    
+    // Start animation after a brief delay to ensure DOM is ready
+    setTimeout(() => {
+      startTime = null; // Reset start time
+      window.maskAnimationId = requestAnimationFrame(animate);
+    }, 100);
+  }
+
+  // Initialize when DOM is ready
+  function initializeAll() {
+    // Setup mask animation first, with a small delay for Safari mobile
+    setTimeout(() => {
+      setupMobileSafariMaskAnimation();
+    }, 50);
+    
+    setupDashboardTextHandlers();
+    setupSoundToggle();
+    setupScrollModeToggle();
+    
+    // Set up scroll handlers after a short delay to ensure checkpoint controller can be initialized
+    setTimeout(() => {
+      setupScrollHandlers();
+      initializeCheckpointController();
+    }, 100);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAll);
+  } else {
+    // DOM is already ready
+    initializeAll();
+  }
+
+  // Sound toggle functionality
+  function setupSoundToggle() {
+    const soundBtn = document.getElementById('soundToggleBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    
+    if (!soundBtn || !soundIcon) return;
+    
+    // Wait for soundEffectsController to be available
+    function initSoundToggle() {
+      if (!window.soundEffectsController) {
+        // Retry after a short delay
+        setTimeout(initSoundToggle, 100);
+        return;
+      }
+      
+      // Update icon based on initial state
+      updateSoundIcon(window.soundEffectsController.isMuted());
+      
+      // Add click handler
+      soundBtn.addEventListener('click', () => {
+        const isMuted = window.soundEffectsController.toggleMute();
+        updateSoundIcon(isMuted);
+      });
+    }
+    
+    function updateSoundIcon(isMuted) {
+      if (isMuted) {
+        soundIcon.classList.remove('fa-volume-high');
+        soundIcon.classList.add('fa-volume-xmark');
+      } else {
+        soundIcon.classList.remove('fa-volume-xmark');
+        soundIcon.classList.add('fa-volume-high');
+      }
+    }
+    
+    initSoundToggle();
+  }
+  
+  // Scroll mode toggle functionality
+  function setupScrollModeToggle() {
+    const scrollModeBtn = document.getElementById('scrollModeToggleBtn');
+    
+    if (!scrollModeBtn) return;
+    
+    // Initial state update
+    updateScrollModeButton();
+    
+    // Add click handler
+    scrollModeBtn.addEventListener('click', () => {
+      toggleCheckpointMode();
+    });
+  }
+
+  // Card flip functionality
+  function setupCardFlip() {
+    const showAutowasbon = document.getElementById('showAutowasbon');
+    const cardFlipInner = document.getElementById('cardFlipInner');
+    const flipCardBtn = document.getElementById('flipCardBtn');
+    const btnFlipCard = document.getElementById('btnFlipCard');
+    
+    if (!cardFlipInner) {
+      // Retry after a short delay if element not found
+      setTimeout(setupCardFlip, 100);
+      return;
+    }
+    
+    // Function to flip the card
+    const flipCard = () => {
+      cardFlipInner.classList.toggle('flipped');
+    };
+    
+    // Setup click handler for showAutowasbon if it exists
+    if (showAutowasbon) {
+      showAutowasbon.addEventListener('click', flipCard);
+      
+      // Also handle touch events for mobile
+      showAutowasbon.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        flipCard();
+      });
+    }
+    
+    // Setup click handler for temporary flip button
+    if (flipCardBtn) {
+      flipCardBtn.addEventListener('click', flipCard);
+    }
+    
+    // Setup click handler for flip card button in card back
+    if (btnFlipCard) {
+      btnFlipCard.addEventListener('click', flipCard);
+      
+      // Also handle touch events for mobile
+      btnFlipCard.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        flipCard();
+      });
+    }
+  }
+
+  // Initialize card flip when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setupCardFlip();
+    });
+  } else {
+    setupCardFlip();
+  }
+
+  // Indicator click functionality - jump to camera Z position
+  function setupIndicatorClicks() {
+    const indicators = ['indicatorWater', 'indicatorMessage', 'indicatorGift'];
+    
+    indicators.forEach(indicatorId => {
+      const indicator = document.getElementById(indicatorId);
+      if (!indicator) return;
+      
+      indicator.addEventListener('click', () => {
+        const targetZ = parseFloat(indicator.getAttribute('data-target-z'));
+        
+        if (isNaN(targetZ)) {
+          console.warn(`Invalid target Z value for ${indicatorId}`);
+          return;
+        }
+        
+        // Wait for camera controller to be available
+        function jumpToZ() {
+          const cameraController = window.cameraController;
+          
+          if (!cameraController || !cameraController.camera) {
+            setTimeout(jumpToZ, 100);
+            return;
+          }
+          
+          // Use linear movement for smooth animation (2 seconds duration)
+          cameraController.setLinearTargetZ(targetZ, 2);
+        }
+        
+        jumpToZ();
+      });
+    });
+  }
+
+  // Initialize indicator clicks when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setupIndicatorClicks();
+    });
+  } else {
+    setupIndicatorClicks();
+  }
+</script>
+
+<script type="module">
+  // DISABLED: Lottie mask initialization for window_frame
+  // Only show/hide functionality is kept (handled in carwash-main.js)
+  /*
+  import { initWindowFrameLottieMask } from './_assets/_components/lottie-mask.js';
+  
+  async function initLottieMask(retries = 10) {
+    // Check if required libraries are loaded
+    if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') {
+      if (retries > 0) {
+        setTimeout(() => initLottieMask(retries - 1), 100);
+        return;
+      } else {
+        console.error('Lottie or JSZip libraries not loaded');
+        return;
+      }
+    }
+    
+    // Check if target element exists
+    const targetElement = document.getElementById('window_frame');
+    if (!targetElement) {
+      if (retries > 0) {
+        setTimeout(() => initLottieMask(retries - 1), 100);
+        return;
+      } else {
+        console.error('Target element #window_frame not found');
+        return;
+      }
+    }
+    
+    try {
+      await initWindowFrameLottieMask({
+        targetId: 'window_frame',
+        lottieUrl: 'https://lottie.host/9e55e811-ab44-4c7e-8048-73ab61c1e98a/kG0T3l6TMq.lottie',
+        maskId: 'windowFrameMask'
+      });
+      console.log('Lottie mask initialized for window_frame');
+    } catch (error) {
+      console.error('Failed to initialize Lottie mask:', error);
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      // Small delay to ensure all scripts are loaded
+      setTimeout(initLottieMask, 100);
+    });
+  } else {
+    // Small delay to ensure all scripts are loaded
+    setTimeout(initLottieMask, 100);
+  }
+  */
+
+  // Loading Screen Implementation
+  (async function initLoadingScreen() {
+    // Set to a number (e.g. 10) to hold loader at that % for styling; set to null for normal behaviour
+    const HOLD_LOADER_AT_PERCENT = null;
+
+    const loadingScreen = document.getElementById('loadingScreen');
+    const loadingLottieContainer = document.getElementById('loadingLottieContainer');
+    const loadingPercentage = document.getElementById('loadingPercentage');
+    const loadingMessage = document.getElementById('loadingMessage');
+
+    if (!loadingScreen || !loadingLottieContainer || !loadingPercentage || !loadingMessage) {
+      console.warn('Loading screen elements not found');
+      return;
+    }
+
+    // Loading messages
+    // const messages = [
+    //   'Setting up carwash...',
+    //   'Loading up the soap...',
+    //   'Warming up the blowers...',
+    //   'Preparing the brushes...',
+    //   'Calibrating sensors...',
+    //   'Initializing water system...',
+    //   'Almost ready...'
+    // ];
+
+    const messages = [
+    //'Jouw persoonlijke wasstraat wordt geladen...',
+    'Zeep wordt gevuld...',
+    'Blazers worden opgewarmd...',
+    'Bijna gereed!'
+    ];
+
+    let currentMessageIndex = 0;
+    let percentage = 0;
+    let lottieAnimation = null;
+
+    // Function to update message with fade effect
+    function updateMessage() {
+      if (currentMessageIndex >= messages.length) return; // Stay on last message
+      loadingMessage.classList.add('fade-out');
+      setTimeout(() => {
+        loadingMessage.textContent = messages[currentMessageIndex];
+        loadingMessage.classList.remove('fade-out');
+        currentMessageIndex++;
+      }, 300);
+    }
+
+    // Function to update percentage
+    function updatePercentage(newPercentage) {
+      percentage = Math.min(100, Math.max(0, newPercentage));
+      if (HOLD_LOADER_AT_PERCENT != null) {
+        percentage = Math.min(percentage, HOLD_LOADER_AT_PERCENT);
+      }
+      loadingPercentage.textContent = Math.round(percentage) + '%';
+    }
+
+    // Load Lottie animation
+    async function loadLottieAnimation() {
+      const lottieUrl = 'https://lottie.host/0372f5ba-cb3a-41a1-a3ec-557db5e1f31f/DgtjfThQqT.lottie';
+      
+      try {
+        // Wait for lottie and JSZip to be available
+        let retries = 50;
+        while ((typeof lottie === 'undefined' || typeof JSZip === 'undefined') && retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          retries--;
+        }
+
+        if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') {
+          throw new Error('Lottie or JSZip libraries not loaded');
+        }
+
+        // Fetch and extract .lottie file
+        const response = await fetch(lottieUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch Lottie file: ${response.statusText}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        const zip = await JSZip.loadAsync(arrayBuffer);
+        
+        // Read manifest.json
+        let animationJson = null;
+        if (zip.files['manifest.json']) {
+          const manifestContent = await zip.files['manifest.json'].async('string');
+          const manifest = JSON.parse(manifestContent);
+          
+          if (manifest.animations && manifest.animations.length > 0) {
+            const firstAnim = manifest.animations[0];
+            const animPath = `animations/${firstAnim.id || 'animation'}.json`;
+            
+            if (zip.files[animPath]) {
+              const animContent = await zip.files[animPath].async('string');
+              animationJson = JSON.parse(animContent);
+            } else {
+              // Fallback: find any JSON in animations folder
+              for (const fileName in zip.files) {
+                if (fileName.includes('animations/') && fileName.endsWith('.json')) {
+                  const animContent = await zip.files[fileName].async('string');
+                  animationJson = JSON.parse(animContent);
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        // Last resort: find any JSON file
+        if (!animationJson) {
+          for (const fileName in zip.files) {
+            if (fileName.endsWith('.json') && fileName !== 'manifest.json') {
+              const animContent = await zip.files[fileName].async('string');
+              const parsed = JSON.parse(animContent);
+              if (parsed.v && parsed.fr) {
+                animationJson = parsed;
+                break;
+              }
+            }
+          }
+        }
+
+        if (!animationJson) {
+          throw new Error('Could not find animation JSON in .lottie file');
+        }
+
+        // Load animation
+        lottieAnimation = lottie.loadAnimation({
+          container: loadingLottieContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: animationJson
+        });
+
+        updatePercentage(20);
+      } catch (error) {
+        console.error('Error loading Lottie animation:', error);
+        // Continue without animation
+        updatePercentage(20);
+      }
+    }
+
+    // Real loading: wait for carwash-ready and use carwash-load-progress for %
+    async function runLoadingScreen() {
+      loadLottieAnimation();
+
+      const messageInterval = setInterval(() => {
+        updateMessage();
+      }, 900);
+
+      // Real progress from carwash-main.js (stations loading)
+      const onProgress = (e) => {
+        if (e.detail && typeof e.detail.percent === 'number') {
+          updatePercentage(e.detail.percent);
+        }
+      };
+      window.addEventListener('carwash-load-progress', onProgress);
+
+      // Hide only when app is really ready (or timeout)
+      const maxWaitMs = 30000;
+      let hidden = false;
+      const transitionLottieUrl = 'https://lottie.host/7caf7754-e1a5-4d00-8183-d4172845e5ee/j4zroIzHG2.lottie';
+
+      const doHideLoadingScreen = () => {
+        clearInterval(messageInterval);
+        window.removeEventListener('carwash-load-progress', onProgress);
+        updatePercentage(100);
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+          if (loadingScreen.parentNode) {
+            loadingScreen.parentNode.removeChild(loadingScreen);
+          }
+          if (lottieAnimation) {
+            lottieAnimation.destroy();
+          }
+        }, 500);
+      };
+
+      const hideLoader = async () => {
+        if (hidden) return;
+        if (HOLD_LOADER_AT_PERCENT != null) return; // Keep loader visible for styling
+        hidden = true;
+
+        const overlay = document.getElementById('lottieOverlay');
+        if (overlay) {
+          overlay.style.zIndex = '10001';
+          overlay.style.display = '';
+        }
+
+        const transitionAnim = await loadAndPlayOverlayLottie(transitionLottieUrl, 0);
+        if (!transitionAnim) {
+          doHideLoadingScreen();
+          if (overlay) overlay.style.zIndex = '';
+          return;
+        }
+
+        const container = overlay ? overlay.querySelector('.lottie-container[data-lottie-index="0"]') : null;
+        let loaderHidden = false;
+
+        const onEnterFrame = () => {
+          const total = transitionAnim.totalFrames || 1;
+          const current = transitionAnim.currentFrame != null ? transitionAnim.currentFrame : 0;
+          const progress = total > 0 ? current / total : 0;
+          if (progress >= 0.5 && !loaderHidden) {
+            loaderHidden = true;
+            transitionAnim.removeEventListener('enterFrame', onEnterFrame);
+            doHideLoadingScreen();
+          }
+        };
+
+        const onComplete = () => {
+          transitionAnim.removeEventListener('complete', onComplete);
+          transitionAnim.removeEventListener('enterFrame', onEnterFrame);
+          if (!loaderHidden) doHideLoadingScreen();
+          if (transitionAnim.destroy) transitionAnim.destroy();
+          if (container) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+          }
+          if (overlay) overlay.style.zIndex = '';
+        };
+
+        transitionAnim.addEventListener('enterFrame', onEnterFrame);
+        transitionAnim.addEventListener('complete', onComplete);
+      };
+
+      window.addEventListener('carwash-ready', hideLoader, { once: true });
+      setTimeout(() => { if (!hidden) hideLoader(); }, maxWaitMs);
+    }
+
+    runLoadingScreen();
+  })();
+</script>
+
+</body>
+</html>

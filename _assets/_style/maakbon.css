@@ -1,0 +1,121 @@
+
+.autowasbon__create {
+
+	min-height: calc(100dvh - 120px);
+	box-sizing: border-box;
+
+}
+
+main {
+	/* padding-top: 4.8vw; */
+}
+
+.font__wash {
+	font-family: 'Sink', sans-serif;
+}
+
+
+.section__title {
+	position: relative;
+	font-size: 56px;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+	font-weight: normal;
+	line-height: 0.9;
+	z-index: 1;
+	transform: rotate(-1deg);
+}
+
+.section__title--small {
+	font-size: 32px;
+}
+
+.title__wash {
+	position: relative;
+	width: 100%;
+	max-width: 480px;
+	/* padding-top: 4.8vw; */
+}
+
+.title__wash--water {
+	position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+
+	margin: auto;
+
+	width: 80%;
+	height: auto;
+	z-index: 0;
+}
+
+.wasbon__value--text {
+	font-family: roc-grotesk, sans-serif;
+font-weight: 400;
+font-style: normal;
+
+font-size: 14px;
+width: 100%;
+
+}
+
+.wasbon__value--amount {
+	font-family: roc-grotesk-condensed, sans-serif;
+font-weight: 700;
+font-style: normal;
+
+font-size: 32px;
+line-height: 1;
+letter-spacing: 0.02em;
+
+width: 128px;
+text-align: right;
+}
+
+.title__wash--logo {
+	width: 100%;
+}
+
+#step-1 .wasbon-step-content-inner {
+	height: 100%;
+}
+
+/* Step 5 (message station): animate in from top */
+#step-5 {
+	transform: translateY(-100%);
+}
+#step-5.is-visible {
+	animation: step5-slide-in 0.4s ease-out forwards;
+}
+@keyframes step5-slide-in {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+
+/*
+@media screen and (max-width: 1200px) {
+
+
+
+}
+
+@media screen and (max-width: 1080px) {
+
+
+
+}*/
+
+
+@media screen and (max-width: 768px){
+
+
+
+}
