@@ -1,11 +1,12 @@
 /**
  * Vercel serverless: returns { artist, name } for a Spotify track. Query: ?id=trackId
- * Set env vars: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+ * Credentials are read from environment via _credentials.js (not in source).
  */
 
+import { getSpotifyCredentials } from './_credentials.js';
+
 async function getToken() {
-	const id = process.env.SPOTIFY_CLIENT_ID;
-	const secret = process.env.SPOTIFY_CLIENT_SECRET;
+	const { id, secret } = getSpotifyCredentials();
 	if (!id || !secret) return null;
 	const res = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',

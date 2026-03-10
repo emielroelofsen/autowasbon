@@ -1,13 +1,14 @@
 /**
  * Vercel serverless: returns a Spotify API access token (client credentials).
- * Set env vars: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+ * Credentials are read from environment via _credentials.js (not in source).
  */
 
+import { getSpotifyCredentials } from './_credentials.js';
+
 async function getSpotifyToken() {
-	const id = process.env.SPOTIFY_CLIENT_ID;
-	const secret = process.env.SPOTIFY_CLIENT_SECRET;
+	const { id, secret } = getSpotifyCredentials();
 	if (!id || !secret) {
-		return { error: 'Missing SPOTIFY_CLIENT_ID or SPOTIFY_CLIENT_SECRET' };
+		return { error: 'Missing Spotify credentials in environment' };
 	}
 	const res = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
