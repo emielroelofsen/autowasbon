@@ -7,7 +7,37 @@
 export const VOUCHER_API_URL = 'https://beleving.api.autowasbon.nl/api/v1/vouchers';
 
 /** URL where Mollie redirects after payment (thank-you page). */
-export const VOUCHER_RETURN_URL = typeof window !== 'undefined' ? (window.location.origin + '/bedankt') : '';
+export const VOUCHER_RETURN_URL = typeof window !== 'undefined' ? (window.location.origin + '/flow-new.html') : '';
+
+/**
+ * GET voucher details by id/uuid.
+ * Expected: Laravel-style JSON with voucher in data (or data.data).
+ * @param {string} voucherId
+ * @returns {Promise<{ success: boolean, voucher?: any, error?: string }>}
+ */
+export async function fetchVoucher(voucherId) {
+	try {
+		const url = `${VOUCHER_API_URL}/${encodeURIComponent(voucherId)}`;
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json' }
+		});
+
+		const json = await response.json().catch(() => ({}));
+		const voucher = json?.data?.data ?? json?.data ?? json?.voucher ?? null;
+
+		if (response.ok && voucher) {
+			return { success: true, voucher };
+		}
+
+		const errors = json.errors ? Object.values(json.errors).flat().join(', ') : null;
+		const error = errors || json.message || json.error || `Kon voucher niet ophalen (${response.status}).`;
+		return { success: false, error };
+	} catch (err) {
+		console.error('[Voucher] GET error:', err);
+		return { success: false, error: 'Kon geen verbinding maken met de server. Controleer je internetverbinding en probeer het opnieuw.' };
+	}
+}
 
 /**
  * POST voucher FormData to API.

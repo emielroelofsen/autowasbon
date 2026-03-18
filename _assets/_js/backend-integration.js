@@ -3,7 +3,7 @@
  * Contains form-field-to-API mappings and UI wiring for voucher creation.
  */
 
-import { createVoucher, VOUCHER_API_URL, VOUCHER_RETURN_URL } from './backend-api.js';
+import { createVoucher, fetchVoucher, VOUCHER_API_URL, VOUCHER_RETURN_URL } from './backend-api.js';
 import { SOAP_OPTIONS } from './maakbon-config.js';
 
 /** Map wens key (flowReden) to VoucherType enum value. */
@@ -14,6 +14,71 @@ const WENS_TO_VOUCHER_TYPE = {
 
 /** Map flowWaarde (15|17.5|20) to API value (7.5|10|15). */
 const WAARDE_TO_API = { 15: 7.5, 17.5: 10, 20: 15 };
+
+const WENS_BASE = '_assets/_style/_images/_wens/';
+
+/** Reverse map: VoucherType enum value -> wens key. */
+const VOUCHER_TYPE_TO_WENS_KEY = Object.entries(WENS_TO_VOUCHER_TYPE).reduce((acc, [key, val]) => {
+	acc[String(val)] = key;
+	return acc;
+}, {});
+
+function activateSection7() {
+	document.querySelectorAll('.flow-section').forEach(el => el.classList.remove('active'));
+	const section7 = document.getElementById('section-7') || document.querySelector('.flow-section[data-section="7"]');
+	if (section7) {
+		section7.classList.add('active');
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+}
+
+function pickSopForVoucherLayout(voucherLayout) {
+	const layout = Number(voucherLayout);
+	if (layout !== 1 && layout !== 2) return SOAP_OPTIONS[0];
+	const idx = SOAP_OPTIONS.findIndex((_, i) => ((i % 2) + 1) === layout);
+	return idx >= 0 ? SOAP_OPTIONS[idx] : SOAP_OPTIONS[0];
+}
+
+function applyVoucherToSection7(voucher) {
+	if (!voucher || typeof voucher !== 'object') return;
+
+	// Recipient tag
+	const receiverFirstname = (voucher.receiver_firstname || '').trim();
+	const receiverLastname = (voucher.receiver_lastname || '').trim();
+	const receiverName = (receiverFirstname + ' ' + receiverLastname).trim() || receiverFirstname || 'Naam';
+	const confirmRecipientTag = document.getElementById('confirmRecipientTag');
+	if (confirmRecipientTag) confirmRecipientTag.textContent = receiverName;
+
+	// Keep inputs in sync if present (useful for later invoice flow)
+	const receiverInput = document.getElementById('receiver_name');
+	const receiverHidden = document.getElementById('receiver_name_hidden');
+	if (receiverInput && receiverName) receiverInput.value = receiverName;
+	if (receiverHidden && receiverName) receiverHidden.value = receiverName;
+
+	// SOP background (based on voucher_layout)
+	const sop = pickSopForVoucherLayout(voucher.voucher_layout);
+	const confirmPreviewBg = document.getElementById('confirmPreviewBg');
+	if (confirmPreviewBg && sop?.preview) confirmPreviewBg.src = sop.preview;
+
+	// Wens image (based on voucher_type)
+	const wensKey = VOUCHER_TYPE_TO_WENS_KEY[String(voucher.voucher_type)] || 'uitblinker';
+	const confirmPreviewWens = document.getElementById('confirmPreviewWens');
+	if (confirmPreviewWens) {
+		confirmPreviewWens.src = WENS_BASE + `wens__${wensKey}.png`;
+		confirmPreviewWens.alt = wensKey;
+	}
+
+	// Send message (scheduled vs direct)
+	const msgEl = document.getElementById('confirmSendMessage');
+	const preferredDate = (voucher.preferred_receiving_date || '').trim();
+	if (msgEl) {
+		if (preferredDate) {
+			msgEl.textContent = 'Yes! Je autowasbon is ingepland voor verzending!';
+		} else {
+			msgEl.textContent = 'YES! JOUW AUTOWASBON VERSTUURD EN KLAAR VOOR GEBRUIK!';
+		}
+	}
+}
 
 /** Build API payload from form and DOM. Returns FormData (for file upload support). */
 function buildVoucherPayload() {
@@ -92,6 +157,29 @@ function buildVoucherPayload() {
 
 /** Wire up btnEmailConfirm to POST voucher and redirect on success. */
 export function initBackendIntegration() {
+	// Handle Mollie return: flow-new.html?voucher=<uuid>
+	const voucherId = typeof window !== 'undefined'
+		? new URLSearchParams(window.location.search).get('voucher')
+		: null;
+	if (voucherId) {
+		(async () => {
+			const result = await fetchVoucher(voucherId);
+			if (result.success && result.voucher) {
+				applyVoucherToSection7(result.voucher);
+				activateSection7();
+				try {
+					const url = new URL(window.location.href);
+					url.searchParams.delete('voucher');
+					history.replaceState(null, '', url.toString());
+				} catch (_) {
+					// ignore URL parse errors
+				}
+			} else if (result.error) {
+				alert(result.error);
+			}
+		})().catch((err) => console.error('[Voucher] Return handler error:', err));
+	}
+
 	const btnEmailConfirm = document.getElementById('btnEmailConfirm');
 	if (!btnEmailConfirm) return;
 
