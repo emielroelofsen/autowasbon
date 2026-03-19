@@ -5,7 +5,6 @@
 
 import { initBackendVoucherCreate } from './backend-voucher-create.js';
 import { initBackendVoucherThanks } from './backend-voucher-thanks.js';
-export { initBackendBeleving, initCarwashVoucherView } from './backend-beleving.js';
 
 /** Backward-compatible initializer used by flow-new entrypoint. */
 export function initBackendIntegration() {

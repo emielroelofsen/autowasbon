@@ -1133,12 +1133,69 @@
 <script type="module" src="_assets/_components/checkpoint-controller.js"></script>
 <script type="module" src="_assets/_components/station-loader.js"></script>
 <script type="module" src="_assets/_components/lottie-zindex-trigger.js"></script>
+<script type="module">
+  import { setNameGetter, setSoapTheme, setDoucheGordijnTextGetter, setMediaUrlGetter } from './_assets/_components/carwash-config.js';
+  import { SOAP_OPTIONS } from './_assets/_js/maakbon-config.js';
+
+  const DUMMY_VOUCHER = {
+    id: 10, uuid: '76e589af-8733-4b2c-b719-8e0f7cf54830',
+    voucher_type: { value: 8, label: 'Sparkling!' },
+    voucher_layout: { value: 3, label: 'Sweet Flowers' },
+    personal_message: 'Hey Jacco, gefeliciteerd met het behalen van je rijexamen. Mocht ook wel na 34 pogingen haha!',
+    photo: 'vouchers/GHqNiZED0D7B07TNyLJq2TgGYOyY8AVu47S2AKTU.jpg', // 'vouchers/Op3CquqHC9jZ8VjtdvTiFDASdOkJUFnv1Dz0b8h1.webp',
+    value: 15, valid_until: '2027-03-19',
+    receiver_firstname: 'Jacco', receiver_lastname: null,
+    giver_firstname: 'Emiel',
+  };
+
+  const voucherId = new URLSearchParams(window.location.search).get('voucher');
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+  if (isLocalhost || voucherId) {
+    let voucher = null;
+
+    if (isLocalhost) {
+      voucher = DUMMY_VOUCHER;
+      console.log('[Voucher] Using dummy data (localhost):', voucher);
+    } else {
+      const url = `https://beleving.api.autowasbon.nl/api/v1/vouchers/${encodeURIComponent(voucherId)}`;
+      const res = await fetch(url, { headers: { Accept: 'application/json' } });
+      const json = await res.json().catch(() => ({}));
+      voucher = json?.data?.data ?? json?.data ?? null;
+      console.log('[Voucher] API response:', voucher);
+    }
+
+    if (voucher) {
+      window.__voucherData = voucher;
+
+      // Set name
+      const name = [voucher.receiver_firstname, voucher.receiver_lastname].filter(Boolean).join(' ').trim();
+      if (name) setNameGetter(() => name);
+      console.log('[Voucher] Name set to:', name);
+
+      // Set personal message
+      const msg = (voucher.personal_message || '').trim();
+      if (msg) setDoucheGordijnTextGetter(() => msg);
+      console.log('[Voucher] Message set to:', msg);
+
+      // Set theme from voucher_layout index
+      const layoutIdx = voucher.voucher_layout?.value ?? voucher.voucher_layout;
+      const theme = SOAP_OPTIONS[Number(layoutIdx) - 1]?.name;
+      if (theme) setSoapTheme(theme);
+      console.log('[Voucher] Theme set to:', theme);
+
+      // Set photo
+      const rawPhoto = voucher.photo_url || voucher.photo;
+      if (rawPhoto) {
+        const photoUrl = rawPhoto.startsWith('http') ? rawPhoto : `https://beleving.api.autowasbon.nl/storage/${rawPhoto}`;
+        setMediaUrlGetter(() => photoUrl);
+        console.log('[Voucher] Photo set to:', photoUrl);
+      }
+    }
+  }
+</script>
 <script type="module" src="_assets/_components/carwash-main.js"></script>
 <script type="module" src="_assets/_components/lottie-mask.js"></script>
-<script type="module">
-  import { initBackendBeleving } from './_assets/_js/backend-beleving.js';
-  initBackendBeleving();
-</script>
 <script type="module">
   // Initialize checkpoint controller after camera controller is ready
   import { CheckpointController } from './_assets/_components/checkpoint-controller.js';
