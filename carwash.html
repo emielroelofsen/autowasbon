@@ -1007,6 +1007,7 @@
                   <div class="relative aspect-square w-full bg-white">
                     <!-- Replace this with a real QR image -->
                     <img
+                      id="voucherQrImg"
                       src="_assets/_style/_images/random_qr.png"
                       alt="QR code"
                       class="w-full object-contain"
@@ -1029,10 +1030,10 @@
                 <!-- Value / expiry -->
                 <div class="mt-6 grid grid-cols-2 text-lg">
                   <div class="text-slate-900 text-xl">Waarde:</div>
-                  <div class="text-right font-semibold text-blue-700 text-xl ">€10</div>
+                  <div id="voucherValue" class="text-right font-semibold text-blue-700 text-xl ">€10</div>
         
                   <div class="text-slate-900 text-xl">Geldig tot:</div>
-                  <div class="text-right font-semibold text-blue-700 text-xl">15-01-2026</div>
+                  <div id="voucherValidUntil" class="text-right font-semibold text-blue-700 text-xl">15-01-2026</div>
                 </div>
         
                 <!-- Buttons -->
@@ -1077,12 +1078,13 @@
                 </div>
 
                 <div class="flex items-center flex-col">
-                  <div class="text-lg tracking-wider text-slate-900 text-center">
+                  <div id="voucherCode" class="text-lg tracking-wider text-slate-900 text-center">
                     1026733-134321 9297351039
                   </div>
                
 
                 <img
+                          id="voucherBarcodeImg"
                           src="_assets/_style/_images/barcode.png"
                           alt="Barcode"
                           class="w-full max-w-[240px] object-cover mix-blend-multiply"
@@ -1133,6 +1135,10 @@
 <script type="module" src="_assets/_components/lottie-zindex-trigger.js"></script>
 <script type="module" src="_assets/_components/carwash-main.js"></script>
 <script type="module" src="_assets/_components/lottie-mask.js"></script>
+<script type="module">
+  import { initBackendBeleving } from './_assets/_js/backend-beleving.js';
+  initBackendBeleving();
+</script>
 <script type="module">
   // Initialize checkpoint controller after camera controller is ready
   import { CheckpointController } from './_assets/_components/checkpoint-controller.js';

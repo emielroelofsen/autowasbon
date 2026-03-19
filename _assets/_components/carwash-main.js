@@ -737,6 +737,18 @@ function init() {
   // Initialize texture manager
   textureManager = new TextureManager(sceneSetup);
   textureManager.loadPoortTexture();
+
+  // Expose minimal public hooks for integration (e.g. carwash.html?voucher=...)
+  window.carwashTextureManager = textureManager;
+  window.applyCarwashTheme = (themeName) => {
+    try {
+      applyUVMappings(textureManager, themeName, SOAP_THEMES, stations);
+      return true;
+    } catch (err) {
+      console.warn('[Carwash] applyCarwashTheme failed:', err);
+      return false;
+    }
+  };
   
   // Make giveObjectMapping available globally for easy use
   window.giveObjectMapping = (objectName, imagePath, projectionAxis, options) => {
