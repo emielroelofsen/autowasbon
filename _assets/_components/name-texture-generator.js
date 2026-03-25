@@ -1,4 +1,6 @@
 /* ===== NAME TEXTURE GENERATOR ===== */
+import * as THREE from 'three';
+
 // Utility to generate dynamic canvas textures for UV mapping names
 
 /**
@@ -192,10 +194,6 @@ export function generateMultilineTexture(text, options = {}) {
  * @returns {THREE.Texture} - Three.js texture
  */
 export function canvasToTexture(canvas, options = {}) {
-  const THREE = window.THREE || (typeof THREE !== 'undefined' ? THREE : null);
-  if (!THREE) {
-    throw new Error('Three.js is not available');
-  }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.flipY = false; // Canvas textures typically don't need flipping

@@ -1,8 +1,9 @@
 /**
  * Maakbon flow – Lottie loading (step 3/4) and click feedback on .btn__main.
- * Depends: lottie-web, JSZip (global); maakbon-config for URLs.
  */
 
+import lottie from 'lottie-web';
+import JSZip from 'jszip';
 import { STEP3_LOTTIE_URL, STEP4_LOTTIE_URL, CLICK_LOTTIE_URL, CLICK_LOTTIE_DURATION_MS } from './maakbon-config.js';
 
 let step3LottieAnim = null;
@@ -15,7 +16,6 @@ async function parseLottieFromBlob(blob, text) {
 		const parsed = JSON.parse(text);
 		if (parsed && (parsed.layers || parsed.assets || parsed.fr !== undefined)) return parsed;
 	} catch (e) { /* not JSON */ }
-	if (typeof JSZip === 'undefined') return null;
 	const zip = await JSZip.loadAsync(blob);
 	const names = ['data.json', 'animation.json', 'comp.json'];
 	for (const n of names) {
@@ -58,7 +58,6 @@ function ensureMeet(container) {
 export async function loadStep3Lottie() {
 	const container = document.getElementById('step3LottieContainer');
 	if (!container || step3LottieAnim) return step3LottieAnim;
-	if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') return null;
 	try {
 		const response = await fetch(STEP3_LOTTIE_URL);
 		if (!response.ok) throw new Error('Failed to fetch Lottie');
@@ -84,7 +83,6 @@ export async function loadStep3Lottie() {
 export async function loadStep4Lottie() {
 	const container = document.getElementById('step4LottieContainer');
 	if (!container || step4LottieAnim) return step4LottieAnim;
-	if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') return null;
 	try {
 		const response = await fetch(STEP4_LOTTIE_URL);
 		if (!response.ok) throw new Error('Failed to fetch Lottie');
@@ -115,7 +113,7 @@ let sopPreviewLottieCurrentUrl = null;
 /** Load (or switch) SOP preview overlay Lottie by URL. Keeps aspect ratio. Destroys previous if URL changes. */
 export async function loadSopPreviewLottie(lottieUrl) {
 	const container = document.getElementById('sopPreviewLottieContainer');
-	if (!container || typeof lottie === 'undefined' || typeof JSZip === 'undefined') return null;
+	if (!container) return null;
 	if (!lottieUrl) {
 		if (sopPreviewLottieAnim) {
 			try { sopPreviewLottieAnim.destroy(); } catch (e) {}
@@ -158,7 +156,6 @@ export function getSopPreviewLottieAnim() { return sopPreviewLottieAnim; }
 
 export async function loadClickLottieData() {
 	if (cachedClickLottieData) return cachedClickLottieData;
-	if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') return null;
 	try {
 		const response = await fetch(CLICK_LOTTIE_URL);
 		if (!response.ok) throw new Error('Failed to fetch');
@@ -185,7 +182,7 @@ export function playClickLottieAt(clientX, clientY, callback) {
 	document.body.appendChild(container);
 
 	loadClickLottieData().then(function (animationData) {
-		if (!animationData || typeof lottie === 'undefined') {
+		if (!animationData) {
 			container.remove();
 			callback();
 			return;

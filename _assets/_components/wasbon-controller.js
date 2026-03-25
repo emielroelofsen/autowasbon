@@ -1,6 +1,8 @@
 /* ===== WASBON CONTROLLER ===== */
 // Controller to manage wasbon creation flow and integrate with camera controller
 
+import lottie from 'lottie-web';
+import JSZip from 'jszip';
 import { WasbonForm } from './wasbon-form.js';
 import { WasbonMessageStation } from './wasbon-message-station.js';
 import { SOAP_THEMES, setNameGetter, setDoucheGordijnTextGetter, generateDoucheGordijnTexture } from './carwash-config.js';
@@ -583,10 +585,6 @@ export class WasbonController {
     // Apply UV mappings in the background (don't wait – Lottie plays fully regardless)
     this.applyTheme(themeName).catch(err => console.error('Theme apply error:', err));
 
-    if (typeof lottie === 'undefined' || typeof JSZip === 'undefined') {
-      this.hideSoapChangeLottieOverlay();
-      return;
-    }
 
     try {
       const url = WasbonController.SOAP_CHANGE_LOTTIE_URL;
@@ -695,12 +693,6 @@ export class WasbonController {
       return;
     }
     
-    // Check if Lottie library is loaded
-    if (typeof lottie === 'undefined') {
-      console.warn('Lottie library not loaded yet. Retrying in 100ms...');
-      setTimeout(() => this.showSoapLottieAnimation(), 100);
-      return;
-    }
     
     // Clear any existing animation
     container.innerHTML = '';
@@ -715,11 +707,6 @@ export class WasbonController {
       
       // For .lottie files, we need to manually extract JSON since the library doesn't handle them natively
       if (url.endsWith('.lottie')) {
-        if (typeof JSZip === 'undefined') {
-          console.error('JSZip is required for .lottie files. Please include JSZip library.');
-          return;
-        }
-        
         try {
           // Fetch the .lottie file
           const response = await fetch(url);

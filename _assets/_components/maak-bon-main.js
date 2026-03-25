@@ -1,6 +1,7 @@
 // Main initialization file for maak-bon.html
 // This is a copy of carwash-main.js with wasbon controller integration
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { SceneSetup } from './scene-setup.js';
 import { FontLoader } from './font-loader.js';
 import { CameraController } from './camera-controller.js';
@@ -469,7 +470,7 @@ function startStationLazyLoadingMonitor() {
 // Load a pending station
 async function loadPendingStation(pending) {
   const { index, station, startZ } = pending;
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   const currentTheme = SOAP_THEMES[WASBON_THEME] || SOAP_THEMES['Start'];
   
   // Merge theme values (same logic as in loadAllStations)
@@ -574,7 +575,7 @@ async function loadPendingStation(pending) {
 
 // Load stations sequentially
 async function loadAllStations() {
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   let currentZ = 0;
   
   // Check if mobile
@@ -695,11 +696,6 @@ async function loadAllStations() {
 
 /* ===== INITIALIZATION ===== */
 function init() {
-  // Wait for GLTFLoader to be available
-  if (typeof window.GLTFLoader === 'undefined') {
-    window.addEventListener('gltfloader-ready', init);
-    return;
-  }
   
   // Initialize scene setup
   const canvas = document.getElementById('scene');
@@ -757,7 +753,7 @@ function init() {
   window.lottieZIndexTrigger = lottieZIndexTrigger;
   
   // Initialize station loader
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   stationLoader = new StationLoader(loader);
   
   // Set flag to indicate we're on maak-bon page (empty name should show nothing)

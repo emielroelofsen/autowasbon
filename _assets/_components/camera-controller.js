@@ -1,4 +1,6 @@
 /* ===== CAMERA CONTROLLER ===== */
+import * as THREE from 'three';
+
 export class CameraController {
   constructor(camera, sceneSetup, scrollCheckpoints = null) {
     this.camera = camera;

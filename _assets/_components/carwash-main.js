@@ -1,5 +1,6 @@
 // Main initialization file for carwash.html
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { SceneSetup } from './scene-setup.js';
 import { FontLoader } from './font-loader.js';
 import { CameraController } from './camera-controller.js';
@@ -466,7 +467,7 @@ function startStationLazyLoadingMonitor() {
 // Load a pending station
 async function loadPendingStation(pending) {
   const { index, station, startZ } = pending;
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   const currentTheme = SOAP_THEMES[SOAP_THEME] || SOAP_THEMES['Power Sop'];
   
   // Merge theme values (same logic as in loadAllStations)
@@ -580,7 +581,7 @@ async function loadAllStations() {
     await window.__voucherPreload;
   }
 
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   let currentZ = 0;
   
   // Check if mobile
@@ -706,11 +707,6 @@ async function loadAllStations() {
 
 /* ===== INITIALIZATION ===== */
 function init() {
-  // Wait for GLTFLoader to be available
-  if (typeof window.GLTFLoader === 'undefined') {
-    window.addEventListener('gltfloader-ready', init);
-    return;
-  }
   
   // Initialize scene setup
   const canvas = document.getElementById('scene');
@@ -787,7 +783,7 @@ function init() {
   window.cameraController = cameraController;
   
   // Initialize station loader
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   stationLoader = new StationLoader(loader);
   
   // Start loading all stations

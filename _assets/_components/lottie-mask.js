@@ -8,6 +8,8 @@
  * Mask behavior: White/opaque areas in the Lottie = visible (blur shows through)
  *                Black/transparent areas = masked out (no blur)
  */
+import lottie from 'lottie-web';
+import JSZip from 'jszip';
 
 /**
  * Loads a .lottie file (zip archive) and extracts the animation JSON

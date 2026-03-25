@@ -1,4 +1,5 @@
 /* ===== SCENE SETUP ===== */
+import * as THREE from 'three';
 import { MobileOptimizer } from './mobile-optimizer.js';
 
 export class SceneSetup {

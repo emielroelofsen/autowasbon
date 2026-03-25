@@ -15,7 +15,6 @@
   <script src="https://kit.fontawesome.com/f041d734e9.js" crossorigin="anonymous"></script>
 
 	<title>National Autowasbon - POWER WASH</title>
-</head>
 <style>
   /* Card flip container */
   .card-flip-container {
@@ -870,7 +869,7 @@
                           <svg class="dash__text--svg" width="184" height="50" viewBox="0 0 184 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               
                               <path  pathLength="1" d="M91.6919 9.50542e-06L175.38 1.68216e-05C180.605 1.72784e-05 184.427 4.92751 183.128 9.98867L175.915 38.0965C175.816 38.4809 175.688 38.8638 175.529 39.2273C171.336 48.7872 167.1 49.0987 160.514 50L22.8697 50C16.2833 49.0987 12.0474 48.7871 7.85526 39.2273C7.69586 38.8638 7.56751 38.4809 7.46885 38.0965L0.255346 9.98865C-1.04353 4.92748 2.77906 1.73241e-06 8.00424 2.18921e-06L91.6919 9.50542e-06Z"
-                              fill="#1B45EA"" />
+                              fill="#1B45EA" />
                               </svg>
                         
           
@@ -1108,25 +1107,6 @@
   </div>
 </main>
 
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-  }
-}
-</script>
-<script type="module">
-  import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-  
-  // Make GLTFLoader available globally
-  window.GLTFLoader = GLTFLoader;
-  
-  // Trigger a custom event when loader is ready
-  window.dispatchEvent(new Event('gltfloader-ready'));
-</script>
 <script type="module" src="_assets/_components/scene-setup.js"></script>
 <script type="module" src="_assets/_components/font-loader.js"></script>
 <script type="module" src="_assets/_components/camera-controller.js"></script>
@@ -1298,16 +1278,12 @@
   }
 </script>
 <script type="module">
-  // All JavaScript code has been moved to separate module files:
-  // - carwash-config.js: Configuration constants
-  // - station-config.js: Station configuration
-  // - checkpoint-config.js: Checkpoint timeline configuration (named checkpoints for navigation)
-  // - texture-manager.js: Texture loading and UV mapping
-  // - lottie-manager.js: Lottie animation handling
-  // - animation-controller.js: Animation loop and object animations
-  // - uv-mapping-config.js: UV mapping configurations
-  // - checkpoint-controller.js: Checkpoint navigation for scroll and dashboard clicks
-  // - carwash-main.js: Main initialization and orchestration
+  // Expose npm-bundled lottie and JSZip as globals so that the non-module inline
+  // scripts below can access them (they rely on `typeof lottie` / `typeof JSZip`).
+  import lottie from 'lottie-web';
+  import JSZip from 'jszip';
+  window.lottie = lottie;
+  window.JSZip = JSZip;
 </script>
 <script>
   // ===== CONFIGURATION =====
