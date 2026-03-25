@@ -8,9 +8,7 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        carwash: 'carwash.html',
         flow:    'index.html',
-        maak:    'carwash-maak.html',
         voucher: 'voucher/index.html',
       },
     },
