@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="utf-8">
+	<meta 
+  name="viewport" 
+  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<link rel="icon" type="image/x-icon" href="/assets/favicon-BDUJ7qr_.png">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://kit.fontawesome.com/f041d734e9.js" crossorigin="anonymous"></script>
+	<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+	<title>National Autowasbon - Persoonlijke Autowasbon samenstellen</title>
+  <script type="module" crossorigin src="/assets/flow-DNW1eQks.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/wensen-config-Buz9lHcy.js">
+  <link rel="modulepreload" crossorigin href="/assets/maakbon-config-By7m8OGP.js">
+  <link rel="stylesheet" crossorigin href="/assets/wensen-config-DLpicLy5.css">
+  <link rel="stylesheet" crossorigin href="/assets/flow-BobEAgNX.css">
+</head>
+<body class="font__size--body bg-[#2C54F4] min-h-screen flex flex-col text-white">
+
+	<main class="flex-1 w-full max-w-[100%] mx-auto px-4 sm:px-6 lg:px-8 py-6 h-full">
+		<form id="flowForm" class="space-y-0 h-full" autocomplete="on">
+
+			<!-- Section 1: Start screen -->
+			<section id="section-1" class="flow-section h-full relative active" data-section="1">
+				<div class="flex flex-col items-center text-center h-full justify-center">
+					
+
+					<div class="title__wash font__wash">
+						<div class="title__wash--logo flex justify-center items-center z-10 relative rotate-3 mb-[32px]">
+						  <img src="/assets/logo-main-DRWdqO_X.svg" alt="Log Nat. Autowasbon" class="card__logo w-[96px]">
+						</div>
+						<img class="title__wash--water" src="data:image/svg+xml,%3csvg%20width='273'%20height='204'%20viewBox='0%200%20273%20204'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M11.6645%20201.855C11.0687%20203.262%208.74583%20203.457%206.55907%20202.565C4.21727%20201.675%202.94177%20199.68%203.54026%20198.428L103.903%204.27028C104.498%202.86338%20106.821%202.66767%20109.008%203.5605C111.195%204.45332%20112.625%206.44551%20112.027%207.69729L11.5094%20201.858L11.6645%20201.855Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M105.724%2073.1254C105.439%2074.5269%20103.282%2075.3404%20100.793%2074.9183C98.3043%2074.4963%2096.7269%2072.9721%2097.0099%2071.4155L117.864%204.48535C118.149%203.08387%20120.306%202.27039%20122.795%202.69245C125.284%203.1145%20127.016%204.63592%20126.733%206.19252L105.879%2073.1227L105.724%2073.1254Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M140.937%2073.4466C140.961%2074.8426%20138.967%2076.1188%20136.487%2076.1621C134.006%2076.2054%20131.969%2074.9996%20131.944%2073.6035L130.753%205.35128C130.729%203.95522%20132.723%202.67909%20135.203%202.63579C137.684%202.59249%20139.721%203.79826%20139.745%205.19433L140.937%2073.4466Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M175.305%2070.0497C175.64%2071.4403%20173.962%2073.0213%20171.647%2073.6824C169.174%2074.191%20166.993%2073.6084%20166.656%2072.0627L143.479%205.90102C143.145%204.51037%20144.823%202.92941%20147.138%202.26835C149.61%201.75969%20151.794%202.4974%20152.129%203.88805L175.305%2070.0497Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M272.538%20194.198C273.183%20195.583%20271.82%20197.469%20269.666%20198.437C267.357%20199.409%20265.028%20199.294%20264.539%20197.906L157.143%206.90937C156.499%205.52413%20157.862%203.63835%20160.016%202.66975C162.325%201.69844%20164.499%201.81568%20165.143%203.20092L272.538%20194.198Z'%20fill='%231D1D1B'/%3e%3c/svg%3e">
+						<h1 class="section__title relative">
+							creeer je eigen<br /> autowasbon <br />en wasstraat!
+							<div class="hero__feature--price">
+
+								<img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%20viewBox='0%200%20115.5%2041.1'%3e%3c!--%20Generator:%20Adobe%20Illustrator%2030.2.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%202.1.1%20Build%20105)%20--%3e%3cdefs%3e%3cstyle%3e%20.st0%20{%20fill:%20%23f0f9fc;%20}%20%3c/style%3e%3c/defs%3e%3cpath%20class='st0'%20d='M102.5,29.6c-1.3,0-2.4-.8-2.9-2.1-.5-1.6.4-3.3,1.9-3.8,3.3-1,6.6-2.3,9.7-3.6,1.5-.7,3.3,0,3.9,1.6.7,1.5,0,3.3-1.6,3.9-3.3,1.4-6.8,2.8-10.3,3.8-.3,0-.6.1-.9.1Z'/%3e%3cpath%20class='st0'%20d='M85.5,30.5c-.2-1.7-1.7-2.8-3.3-2.7-3.8.4-7.8.7-11.7.7-21.3,0-42.4-6.6-60-18.6l22.9-4c1.6-.3,2.7-1.8,2.4-3.5-.3-1.6-1.8-2.7-3.5-2.4L2.5,5.3c-.8.1-1.5.6-1.9,1.2C0,7.2,0,8,0,8.8l5.3,29.8c.3,1.5,1.5,2.5,2.9,2.5s.4,0,.5,0c1.6-.3,2.7-1.8,2.4-3.5l-4-22.5c18.6,12.6,40.8,19.5,63.3,19.5s8.3-.2,12.3-.7c1.7-.2,2.8-1.7,2.7-3.3Z'/%3e%3c/svg%3e">
+								
+								Voor €2,49
+							
+							</div>
+						</h1>
+					  </div>
+
+					<div class="hero__phone" style="filter:drop-shadow(-16px 72px 26px rgba(0,0,0,0.2)); z-index: 3;">
+						
+						<img src="/assets/hero--hand-aq-nD4XO.png" class="">
+
+						<span class="hero__feature--photo">
+							
+							Kies je sop
+							<img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%20viewBox='0%200%20115.5%2041.1'%3e%3c!--%20Generator:%20Adobe%20Illustrator%2030.2.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%202.1.1%20Build%20105)%20--%3e%3cdefs%3e%3cstyle%3e%20.st0%20{%20fill:%20%23f0f9fc;%20}%20%3c/style%3e%3c/defs%3e%3cpath%20class='st0'%20d='M102.5,29.6c-1.3,0-2.4-.8-2.9-2.1-.5-1.6.4-3.3,1.9-3.8,3.3-1,6.6-2.3,9.7-3.6,1.5-.7,3.3,0,3.9,1.6.7,1.5,0,3.3-1.6,3.9-3.3,1.4-6.8,2.8-10.3,3.8-.3,0-.6.1-.9.1Z'/%3e%3cpath%20class='st0'%20d='M85.5,30.5c-.2-1.7-1.7-2.8-3.3-2.7-3.8.4-7.8.7-11.7.7-21.3,0-42.4-6.6-60-18.6l22.9-4c1.6-.3,2.7-1.8,2.4-3.5-.3-1.6-1.8-2.7-3.5-2.4L2.5,5.3c-.8.1-1.5.6-1.9,1.2C0,7.2,0,8,0,8.8l5.3,29.8c.3,1.5,1.5,2.5,2.9,2.5s.4,0,.5,0c1.6-.3,2.7-1.8,2.4-3.5l-4-22.5c18.6,12.6,40.8,19.5,63.3,19.5s8.3-.2,12.3-.7c1.7-.2,2.8-1.7,2.7-3.3Z'/%3e%3c/svg%3e">
+
+						</span>
+						<span class="hero__feature--soap">
+							
+							Voeg foto toe
+							<img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%20viewBox='0%200%20115.5%2041.1'%3e%3c!--%20Generator:%20Adobe%20Illustrator%2030.2.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%202.1.1%20Build%20105)%20--%3e%3cdefs%3e%3cstyle%3e%20.st0%20{%20fill:%20%23f0f9fc;%20}%20%3c/style%3e%3c/defs%3e%3cpath%20class='st0'%20d='M102.5,29.6c-1.3,0-2.4-.8-2.9-2.1-.5-1.6.4-3.3,1.9-3.8,3.3-1,6.6-2.3,9.7-3.6,1.5-.7,3.3,0,3.9,1.6.7,1.5,0,3.3-1.6,3.9-3.3,1.4-6.8,2.8-10.3,3.8-.3,0-.6.1-.9.1Z'/%3e%3cpath%20class='st0'%20d='M85.5,30.5c-.2-1.7-1.7-2.8-3.3-2.7-3.8.4-7.8.7-11.7.7-21.3,0-42.4-6.6-60-18.6l22.9-4c1.6-.3,2.7-1.8,2.4-3.5-.3-1.6-1.8-2.7-3.5-2.4L2.5,5.3c-.8.1-1.5.6-1.9,1.2C0,7.2,0,8,0,8.8l5.3,29.8c.3,1.5,1.5,2.5,2.9,2.5s.4,0,.5,0c1.6-.3,2.7-1.8,2.4-3.5l-4-22.5c18.6,12.6,40.8,19.5,63.3,19.5s8.3-.2,12.3-.7c1.7-.2,2.8-1.7,2.7-3.3Z'/%3e%3c/svg%3e">
+						
+						</span>
+						<span class="hero__feature--message">
+							
+							Schrijf <br />persoonlijk bericht
+							<img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%20viewBox='0%200%20115.5%2041.1'%3e%3c!--%20Generator:%20Adobe%20Illustrator%2030.2.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%202.1.1%20Build%20105)%20--%3e%3cdefs%3e%3cstyle%3e%20.st0%20{%20fill:%20%23f0f9fc;%20}%20%3c/style%3e%3c/defs%3e%3cpath%20class='st0'%20d='M102.5,29.6c-1.3,0-2.4-.8-2.9-2.1-.5-1.6.4-3.3,1.9-3.8,3.3-1,6.6-2.3,9.7-3.6,1.5-.7,3.3,0,3.9,1.6.7,1.5,0,3.3-1.6,3.9-3.3,1.4-6.8,2.8-10.3,3.8-.3,0-.6.1-.9.1Z'/%3e%3cpath%20class='st0'%20d='M85.5,30.5c-.2-1.7-1.7-2.8-3.3-2.7-3.8.4-7.8.7-11.7.7-21.3,0-42.4-6.6-60-18.6l22.9-4c1.6-.3,2.7-1.8,2.4-3.5-.3-1.6-1.8-2.7-3.5-2.4L2.5,5.3c-.8.1-1.5.6-1.9,1.2C0,7.2,0,8,0,8.8l5.3,29.8c.3,1.5,1.5,2.5,2.9,2.5s.4,0,.5,0c1.6-.3,2.7-1.8,2.4-3.5l-4-22.5c18.6,12.6,40.8,19.5,63.3,19.5s8.3-.2,12.3-.7c1.7-.2,2.8-1.7,2.7-3.3Z'/%3e%3c/svg%3e">
+						
+						</span>
+
+					</div>
+
+					<button type="button" id="btnStart" class="font-bold btn__main mt-16 hover:bg-yellow-400 transition-colors z-10">Start <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+					
+				</div>
+			</section>
+
+			<!-- Section 2: Personalization steps (8 steps, progress bar) -->
+			<section id="section-2" class="flow-section h-full max-w-[480px] mx-auto" data-section="2">
+				
+				<div class="mb-6 lg:mb-8" id="section2ProgressBar">
+					<div class="h-1.5 bg-white/20 rounded-full">
+						<div class="h-full bg-[#FACC15] rounded-full transition-all duration-300 ease-out relative" id="stepProgress" style="width: 12.5%;">
+
+							<img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20id='Layer_1'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%20viewBox='0%200%2054%2043.3'%3e%3c!--%20Generator:%20Adobe%20Illustrator%2030.2.0,%20SVG%20Export%20Plug-In%20.%20SVG%20Version:%202.1.1%20Build%20105)%20--%3e%3cdefs%3e%3cstyle%3e%20.st0%20{%20fill:%20%23f2f2f2;%20}%20%3c/style%3e%3c/defs%3e%3cpath%20class='st0'%20d='M53.9,21.2h0c-.2-4.3-1.4-4.9-2.9-5,0,0-3.7-12.7-3.7-12.8-1.4-2.9-2.9-3.4-4.9-3.4H11.5c-1.9,0-3.4.5-4.9,3.4,0,0-3.6,12.8-3.7,12.8-1.5.2-2.7.7-2.9,5v10.5c0,2.3-.3,4.3,2.1,4.3v5.1c0,2.4,1.9,2.2,4.2,2.2s4.3,0,4.3-2.2h0v-5.1h32.9v5.1c0,2.3,1.9,2.2,4.3,2.2s4.1.2,4.2-2.2v-5.1c2.3,0,2-2,2-4.3v-10.5h0ZM7,29.4c-2.7,0-4.8-2.2-4.8-4.8s2.2-4.9,4.8-4.9,4.8,2.2,4.8,4.9-2.1,4.8-4.8,4.8ZM7.9,14.9l2.3-9.4c.8-1.8,1.5-1.9,2.7-2h28.1c1.2.2,2,.2,2.7,2l2.3,9.4H7.8h.1ZM47,29.4c-2.7,0-4.8-2.2-4.8-4.8s2.2-4.9,4.8-4.9,4.9,2.2,4.9,4.9-2.2,4.8-4.9,4.8Z'/%3e%3c/svg%3e" class="w-4 h-4 absolute bottom-2 -right-2">
+
+						</div>
+					</div>
+				</div>
+
+			
+
+				<!-- Step 8: Voeg waarde toe -->
+				<div class="step-panel" data-step="1">
+					<div class="step__wrapper">
+						<h2 class="section__title section__title--small font__wash text-white mb-4">VOEG autowasbon<br />WAARDE TOE</h2>
+					
+						<div class="space-y-4 lg:grid lg:grid-cols-1 lg:gap-6 lg:space-y-0">
+
+							<div class="wasbon-value-options flex flex-col sm:flex-col gap-4 mt-[24px] mb-[40px] w-full max-w-[440px] mx-auto">
+							<button type="button" class="waarde-option wasbon-value-btn wasbon__value--card bg--white flex-1 flex flex-col items-end gap-2 rounded-lg p-3 cursor-pointer shadow-lg/40 relative" data-value="15" role="button" tabindex="0" data-waarde="20">
+								<span class="delivery-option__label on-left">Meest gekozen</span>  
+								<div class="wasbon__value--amount bg--black py-2 px-3 rounded rounded-md">€20</div>
+								  <div class="wasbon__value--text pt-3 text-left sm:pt-8 leading-none">Laat iemand de auto<br />écht grondig kan verwennen.</div>
+								</button>
+								<button type="button" class="waarde-option wasbon-value-btn wasbon__value--card bg--white flex-1 flex flex-col items-end gap-2 rounded-lg p-3 cursor-pointer shadow-lg/40 relative" data-value="10" role="button" tabindex="0" data-waarde="17.50">
+									
+								  <div class="wasbon__value--amount bg--black py-2 px-3 rounded rounded-md">€17,50</div>
+								  <div class="wasbon__value--text pt-3 text-left sm:pt-8 leading-none">Dit voelt al echt als<br />"lekker mijn auto laten wassen".</div>
+								</button>
+								<button type="button" class="waarde-option wasbon-value-btn wasbon__value--card bg--white flex-1 flex flex-col items-end gap-2 rounded-lg p-3 cursor-pointer shadow-lg/40" data-value="7.5" role="button" tabindex="0" data-waarde="15">
+								  <div class="wasbon__value--amount bg--black py-2 px-3 rounded rounded-md">€15</div>
+								  <div class="wasbon__value--text text-left pt-3 sm:pt-8 leading-none">Een vrolijk duwtje<br />richting een schone auto</div>
+								</button>
+							  </div>
+						</div>
+						<input type="hidden" name="waarde" id="flowWaarde" value="15">
+					</div>
+				</div>
+
+				<!-- Step 1: Reden (populated from wensen-config.js) -->
+				<div class="step-panel" data-step="2">
+					<div class="step__wrapper h-full">
+						<h2 class="section__title section__title--small font__wash text-white mb-6">REDEN VOOR <br />DEZE AUTOWASBON</h2>
+						<div class="flex flex-col lg:grid lg:grid-cols-2 max-h-[90%] overflow-y-auto
+						wasbon-wens-options h-full pb-[160px]" id="flowWensOptions">
+							<!-- Populated from wensen-config.js -->
+						</div>
+						<input type="hidden" name="reden" id="flowReden" value="">
+					</div>
+				</div>
+
+				<!-- Step 2: Kies sop - preview card 4/5, wolken, one soap, arrows -->
+				<div class="step-panel" data-step="3">
+					<div class="step__wrapper h-full flex flex-col">
+						<h2 class="section__title section__title--small font__wash text-white mb-6 flex-shrink-0">KIES <br />JOUW SOP</h2>
+						<div class="flex-1 min-h-0 flex justify-center items-start h-full">
+						<div class="sop-preview-card max-h-full rounded-2xl overflow-hidden relative bg-white flex-shrink-0">
+
+							<div id="sopSpotifyEmbed" data-testid="embed-iframe" style="border-radius:12px; width:100%; height:152px;"></div>
+							<!-- Background: car wash scene (cardpreview) -->
+							<div class="absolute inset-0">
+								<img id="sopPreviewImg" src="/assets/preview__calm-1TINlyvK.png" alt="" class="w-full h-full object-contain object-top">
+							</div>
+							<!-- Lottie overlay (keeps aspect ratio, on top of card) -->
+							<div id="sopPreviewLottieContainer" class="absolute top-0 left-0 w-full h-[45%] flex items-center justify-center pointer-events-none z-[1]"></div>
+							<!-- Sound toggle: Spotify logo, artwork, artist/track, soundwave, volume icon -->
+							<button type="button" id="sopSound" class="absolute top-2 left-2 z-20 flex flex-col gap-2 text-black rounded-md p-1 min-w-[280px] cursor-pointer bg-white shadow-md" aria-label="Toggle sound">
+								
+								<div class="flex flex-row gap-2">
+								
+								<img id="sopTrackArtwork" src="/assets/preview__calm-1TINlyvK.png" alt="" class="w-14 h-14 rounded-[4px] object-cover flex-shrink-0">
+								<div class="flex flex-col items-start justify-center min-w-0 flex-1">
+
+									<i class="fa-sharp fa-solid fa-volume-high text-sm flex-shrink-0 absolute top-3 right-3" id="sopSoundIcon"></i>
+									
+									<div class="flex flex-row gap-1 w-full text-[16px]">
+									<span id="sopTrackArtist" class="text-left truncate">Artist</span>
+									<span class="text-left flex-shrink-0"> – </span>
+									<span id="sopTrackTitle" class="text-left truncate min-w-0">Track title</span>
+									</div>
+									<div class="flex flex-row gap-1 text-[12px] items-center opacity-80">
+										<i class="fa-brands fa-spotify text-xl text-black" aria-hidden="true"></i>
+										Wordt afgespeeld in de wasstraat
+									</div>
+									<!-- <div class="flex flex-row gap-2">
+										<div class="sop-sound-waves h-3 w-6 flex-shrink-0">
+											<span class="sop-wave-bar"></span>
+											<span class="sop-wave-bar"></span>
+											<span class="sop-wave-bar"></span>
+											
+										</div>
+									
+									</div> -->
+								</div>
+								</div>
+								
+							</button>
+							
+						<!-- Wolken overlay -->
+						<div class="sop-wolken-overlay absolute pointer-events-none z-[2]"></div>
+						<!-- One soap in the middle -->
+						<div class="absolute inset-0 flex items-end justify-center z-[3] p-16 pb-24 pointer-events-none">
+							<img id="sopSoapImg" src="/assets/soap__calm-DgHBgT0n.png" alt="Soft Calm" class="max-h-[45%] w-auto object-contain transition-opacity duration-200 cursor-pointer pointer-events-auto">
+						</div>
+						<!-- Left and right arrows -->
+						<button type="button" id="sopPrev" class="absolute left-3 bottom-[20%] z-20 w-12 h-12 rounded-full bg-black text-white flex items-center justify-center  transition-colors shadow-lg"><i class="fa-sharp fa-solid fa-arrow-left text-xl"></i></button>
+						<button type="button" id="sopNext" class="absolute right-3 bottom-[20%] z-20 w-12 h-12 rounded-full bg-black text-white flex items-center justify-center  transition-colors shadow-lg"><i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+						<!-- VOEG TOE button at bottom -->
+						<div class="absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-auto w-full flex items-center justify-center">
+							<button type="button" id="sopVoegToe" class="btn__main" disabled>Voeg toe <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+							</div>
+						</div>
+						</div>
+						<input type="hidden" name="sop" id="flowSop" value="">
+					</div>
+				</div>
+
+				<!-- Step 3: Naam -->
+				<div class="step-panel" data-step="4">
+					<div class="step__wrapper h-full flex flex-col">
+						<h2 class="section__title section__title--small font__wash text-white mb-6 flex-shrink-0">AAN WIE GEEF JE<br /> DEZE AUTOWASBON?</h2>
+						<div class="flex-1 min-h-0 flex justify-center items-start h-full relative">
+
+						<div class="sop-bg-card sop-bg-area max-h-full rounded-2xl overflow-hidden relative flex-shrink-0 p-6 flex flex-col justify-between" style="background-color: #89b7f9;">
+
+							<div id="background__cardname" class="absolute inset-0">
+								<img id="background__cardname_img" src="/assets/background__name--calm-C5Ash--M.png" alt="" class="w-full h-full object-contain object-top">
+							</div>
+							<div id="step3LottieContainer" class="absolute inset-0"></div>
+
+							<input type="text" name="rec" id="receiver_name" placeholder="Type hier de naam.." maxlength="50" autocomplete="nope" data-lpignore="true" data-form-type="other" readonly
+								class="w-full bg-transparent text-black text-4xl font-semibold placeholder:text-black/50 outline-none text-center z-10 mt-[16%]">
+							<input type="hidden" name="receiver_name" id="receiver_name_hidden">
+							
+							<div id="previewNameBoog" class="font__wash text-black absolute top-[29.5%] left-1/2 -translate-x-1/2 text-[20px] uppercase tracking-[0.02em]">...</div>
+
+						<div class="absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-auto w-full flex items-center justify-center">
+							
+							<button type="button" id="btnStep4VoegToe" class="step-volgende-btn relative z-10 btn__main" disabled>Voeg toe <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+							</div>
+						</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Step 4: Persoonlijk bericht -->
+				<div class="step-panel" data-step="5">
+					<div class="step__wrapper h-full flex flex-col bg-clouds">
+						<h2 class="section__title section__title--small font__wash text-white mb-6 flex-shrink-0">SCHRIJF EEN <br />EXTRA PERSOONLIJK BERICHTJE</h2>
+						<div class="flex-1 min-h-0 flex justify-center items-start h-full">
+						<div class="sop-bg-card sop-bg-area max-h-full rounded-2xl overflow-hidden relative flex-shrink-0 p-6 flex flex-col justify-between" style="background-color: #89b7f9;">
+
+							<div id="step4LottieContainer" class="absolute inset-0"></div>
+							<img src="/assets/background__gordijn-CInthhK5.png" class="absolute top-0 left-0 w-full h-full" style="z-index: 4; filter:drop-shadow(0px 16px 16px rgba(0,0,0,0.1))">
+
+							<textarea name="persoonlijk_bericht" id="persoonlijk_bericht" rows="4" placeholder="Schrijf bericht" maxlength="160"
+								class="bg-transparent text-black text-3xl font-semibold placeholder:text-black/50 outline-none resize-none flex-1 z-4 absolute top-[96px] left-[10%] w-[80%] h-[50%]" style="z-index: 10;"></textarea>
+								<div class="absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-auto w-full flex items-center justify-center">
+								
+									<span id="persoonlijk_bericht_counter" class="absolute right-16 bottom-[180%] z-10 text-black/70 text-2xl font-bold">0/160</span>
+									<button type="button" class="step-volgende-btn relative z-10 btn__main">Voeg toe <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+									
+									</div>
+								</div>
+						</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Step 5: Upload foto -->
+				<div class="step-panel" data-step="6">
+					<div class="step__wrapper h-full flex flex-col bg-clouds">
+						<h2 class="section__title section__title--small font__wash text-white mb-6 flex-shrink-0">VOEG EEN <br />FOTO TOE</h2>
+						<div class="flex-1 min-h-0 flex justify-center items-start h-full">
+						<div class="sop-bg-card sop-bg-area max-h-full rounded-2xl overflow-hidden relative flex-shrink-0 p-8 flex flex-col items-center justify-between" style="background-color: #89b7f9;">
+
+							<img id="background__media_img" src="/assets/background__photo--calm-DteqFTON.png" alt="" class="absolute top-0 left-0 z-0 w-full object-cover">
+
+							<div class="flex flex-col items-center gap-6 flex-1 justify-center">
+
+								<p class="text-xl font-bold absolute top-[11%] text-black">Selecteer uit fotobibliotheek</p>
+
+								<label for="photoUpload" class="cursor-pointer absolute media__upload--preview-mask flex items-center justify-center">
+									<img id="media__upload--preview" src="/assets/placeholder__media-DEQoUM3h.png" class="w-full h-full object-cover pointer-events-none" alt="">
+								</label>
+								<input type="file" name="photo" id="photoUpload" accept="image/*" class="hidden">
+								<label for="photoUpload" class="cursor-pointer absolute bottom-[32%]">
+									<span class="inline-block btn__main">Upload foto <i class="fa-sharp fa-solid fa-arrow-up-from-bracket"></i></span>
+								</label>
+							</div>
+							<div class="absolute bottom-0 left-0 right-0 p-8 z-20 pointer-events-auto w-full flex items-center justify-center gap-4 flex-col">
+								<div class="sop-wolken-overlay--lower absolute pointer-events-none z-[2]"></div>
+								
+								<button type="button" class="step-volgende-btn relative z-10 btn__main">Voeg toe <i class="fa-sharp fa-solid fa-arrow-right text-xl"></i></button>
+								<button type="button" class="step-volgende-btn btn__main bg-black text-white z-10 text-[20px]">Ga verder zonder foto</button>
+								</div>
+							
+						</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="step-panel" data-step="7">
+					<div class="step__wrapper">
+						<h2 class="section__title section__title--small font__wash text-white mb-4">
+
+							met deze onderdelen<br />
+gaan we aan de slag!
+
+
+						</h2>
+					
+						<div class="grid grid-cols-6 gap-4 p-4 pb-8" id="step7SummaryGrid">
+							<!-- Wens -->
+							<div class="relative col-span-4 aspect-[2/1] rounded-2xl step7-dynamic-bg" style="background-color: #ffac26;">
+							  <button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white"
+								aria-label="Edit wens"
+								type="button"
+								onclick="editStep(2)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full">
+
+								<img id="step7WensImg" src="/assets/wens__uitblinker-wWBXO8x7.png" alt="" class="object-contain max-h-[100%] w-[100%]">
+
+							  </div>
+							</div>
+					
+							<!-- Sop -->
+							<div class="relative  col-span-2  rounded-2xl step7-dynamic-bg" style="background-color: #ffac26;">
+								<button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white"
+								aria-label="Edit sop"
+								type="button"
+								onclick="editStep(3)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full p-2">
+
+								<img id="step7SoapImg" src="/assets/soap__feelgood-DS6HIoS1.png" class="object-contain h-[100%] w-[100%]">
+
+							  </div>
+							</div>
+					
+							<!-- Name -->
+							<div class="relative col-span-6 aspect-[6/2] rounded-2xl step7-dynamic-bg" style="background-color: #ffac26;">
+								<button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white z-20"
+								aria-label="Edit naam"
+								type="button"
+								onclick="editStep(4)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full overflow-hidden rounded-2xl relative">
+								<img id="step7NameBoogImg" src="/assets/background__name--feelgood-VAuj6BAo.png" class="object-contain w-[120%] max-w-[120%] translate-y-[-25%] translate-x-[-8%]">
+								<div id="step7NameText" class="font__wash text-black absolute top-[29.5%] left-1/2 -translate-x-1/2 text-[20px] uppercase tracking-[0.02em] z-10 whitespace-nowrap overflow-hidden text-center max-w-[85%]">Naam</div>
+							  </div>
+							</div>
+					
+							<!-- Bericht -->
+							<div class="relative col-span-6 aspect-[3/2] rounded-2xl step7-dynamic-bg" style="background-color: #ffac26;">
+								<button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white z-20"
+								aria-label="Edit bericht"
+								type="button"
+								onclick="editStep(5)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full rounded-2xl overflow-hidden relative">
+								<img id="step7BerichtImg" src="/assets/background__gordijn-CInthhK5.png" class="object-contain w-full max-w-full absolute top-0 left-0" style="filter: drop-shadow(0px 16px 16px rgba(0,0,0,0.1));">
+								<div id="step7BerichtText" class="bg-transparent text-black text-3xl font-semibold absolute top-[24%] left-[10%] w-[80%] max-h-[50%] overflow-auto z-10 resize-none whitespace-pre-wrap break-words"></div>
+							  </div>
+							</div>
+					
+							<!-- Media -->
+							<div class="relative col-span-3 rounded-2xl aspect-[4/3] step7-dynamic-bg" style="background-color: #ffac26;">
+								<button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white z-20"
+								aria-label="Edit foto"
+								type="button"
+								onclick="editStep(6)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full rounded-2xl overflow-hidden relative ">
+
+								<label for="photoUpload" class="cursor-pointer absolute top-[12%] media__upload--preview-mask flex items-center justify-center z-40">
+									<img id="step7MediaPreview" src="/assets/placeholder__media-DEQoUM3h.png" class="w-full h-full object-cover pointer-events-none" alt="">
+								</label>
+
+								<img id="step7MediaBoogImg" src="/assets/background__photo--feelgood-Dzxc8zjy.png" class="object-contain w-[100%] translate-y-[-14%]">
+
+							  </div>
+							</div>
+					
+							<!-- Waarde -->
+							<div class="relative col-span-3 rounded-2xl aspect-[4/3] step7-dynamic-bg" style="background-color: #ffac26;">
+								<button
+								class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-black ring-2 ring-white z-20"
+								aria-label="Edit waarde"
+								type="button"
+								onclick="editStep(1)"
+							  >
+								<i class="fa-solid fa-sharp fa-pen text-white text-xs"></i>
+							  </button>
+							  <div class="h-full w-full flex items-center justify-center">
+
+								<span id="step7Waarde" class="text-black text-5xl font-bold">€15</span>
+
+							  </div>
+							</div>
+
+							<div class="relative col-span-6 flex flex-col gap-4 justify-center items-center">
+
+								<button type="button" id="btnTestrit" class="btn__main bg-black text-white" onclick="window.location.href='carwash-maak.html'">Maak een testrit</button>
+				
+							<button type="button" id="" class="step-volgende-btn btn__main">Bestel deze autowasbon <i class="fa-sharp fa-solid fa-arrow-right ml-2"></i></button>
+
+							</div>
+						  </div>
+						
+					</div>
+				</div>
+
+				<!-- <div class="step-panel" data-step="7">
+					<div class="step__wrapper">
+						<h2 class="section__title section__title--small font__wash text-white mb-6 text-center">JOUW PERSOONLIJKE <br />AUTOWASBON IS KLAAR!</h2>
+				<div class="cardpreview-wrapper w-[280px] mx-auto mb-6 relative">
+					<div class="preview__card--background rounded-xl overflow-hidden relative">
+						<span id="flowPreviewName" class="absolute left-1/2 -translate-x-1/2 top-[8%] text-[20px] w-max bg-white text-black text-center uppercase tracking-[0.02em] pt-1 pb-0.5 font__wash"></span>
+						<img id="flowPreviewBg" src="_assets/_style/_images/_cardpreview/preview__calm.png" alt="Autowasbon">
+						<div class="preview__card--foreground">
+							<img id="flowPreviewWens" src="" alt="Wens">
+						</div>
+					
+					</div>
+
+					<div class="relative flex justify-between items-center bg-white p-4 -mt-8 rounded-b-lg">
+						<span class="text-black font-bold">TOTAAL</span>
+						<span class="bg-black text-white font-bold bg--black py-2 px-3 rounded rounded-md text-2xl id="previewTotal">€15,99</span>
+					</div>
+				</div>
+				<div class="flex flex-col items-center justify-center w-full max-w-[440px] mx-auto">
+
+				<button type="button" id="btnTestrit" class="btn__main bg-black text-white mb-4" onclick="window.location.href='carwash-maak.html'">Maak een testrit en pas aan</button>
+				
+				<button type="button" id="" class="step-volgende-btn btn__main mb-4">Doorgaan <i class="fa-sharp fa-solid fa-arrow-right ml-2"></i></button>
+				
+			</div>
+					</div>
+				</div> -->
+
+				<!-- Step 6: Hoe wil je geven -->
+				<div class="step-panel" data-step="8">
+					<div class="step__wrapper">
+						<h2 class="section__title section__title--small font__wash text-white mb-6">HOE WIL JE <br />DE AUTOWASBON GEVEN?</h2>
+						<div class="space-y-4 lg:grid lg:grid-cols-1 lg:gap-6 lg:space-y-0 max-w-[400px] mx-auto">
+						<button type="button" class="sop-delivery-option relative w-full bg-white hover:bg-sky-200 rounded-md p-6 flex flex-col gap-6 text-left hover:ring-2 hover:ring-[#FACC15] transition-all" data-sop="digitaal" data-price="0.99">
+							<!-- <span class="delivery-option__label">Van €2,49 voor €0,99</span> -->
+							<div><i class="fa-brands fa-whatsapp text-black fa-2xl"></i></div>
+							<div class="flex flex-row items-center justify-between w-full">
+							<span class="text-black text-xl w-[50%] leading-none">Stuur direct via email of deel de link via Whatsapp</span>
+							<span class="bg-black text-white font-bold px-4 py-2 rounded-md text-xl">Gratis</span>
+							</div>
+						</button>
+						<button type="button" class="sop-delivery-option delivery-post-option w-full bg-white rounded-md p-6 flex flex-col gap-6 text-left hover:ring-2 hover:ring-[#FACC15] hover:bg-sky-200 transition-all" data-sop="post" data-price="2.95">
+							<div><i class="fa-sharp text-black fa-solid fa-envelope fa-2xl"></i></div>
+							<div class="flex flex-col w-full gap-0">
+								<div class="flex flex-row items-center justify-between w-full">
+									<span class="text-black text-xl w-[50%] leading-none">Verstuur jouw persoonlijke bon via de post.</span>
+									<span class="bg-black text-white font-bold px-4 py-2 rounded-md text-xl flex-shrink-0">€4.95</span>
+								</div>
+								<div class="delivery-post-expand">
+									<p class="text-black text-base pt-2 leading-snug">Wij versturen jouw Autowasbon in cadeauverpakking. De ontvanger ontvangt een Autowasbon nadat deze door jouw creatief samengestelde wasstraat heeft gereden.</p>
+								</div>
+							</div>
+						</button>
+						</div>
+						<input type="hidden" name="delivery_sop" id="deliverySop" value="digitaal">
+						<div class="max-w-[400px] mx-auto mt-6">
+							<button type="button" id="btnStep8Doorgaan" class="step-volgende-btn btn__main w-full" disabled>Doorgaan <i class="fa-sharp fa-solid fa-arrow-right"></i></button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Step 7: Wanneer wil je geven -->
+				<div class="step-panel" data-step="9">
+					<div class="step__wrapper">
+						<h2 class="section__title section__title--small font__wash text-white mb-6">WANNEER MOET DE AUTOWASBON<br /> VERZONDEN WORDEN?</h2>
+						<div class="flex flex-col gap-4 max-w-[400px] mx-auto">
+						<button type="button" class="send-date-option w-full bg-white rounded-md p-6 flex flex-col gap-2 text-left hover:ring-2 hover:ring-[#FACC15] hover:bg-sky-200 transition-all text-black font-semibold" data-send="datum">
+							<span class="text-2xl">Zet een verzend datum</span>
+							<div class="send-date-expand overflow-hidden transition-all duration-300 ease-out">
+								<div class="pt-4 border-t border-gray-200 mt-2 flex flex-wrap items-center gap-2">
+									<label class="text-md text-gray-600" for="sendDatePicker">Datum:</label>
+									<input type="date" id="sendDatePicker" name="send_date_picker" min="2025-01-01" max="2030-12-31" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" aria-label="Verzenddatum" aria-describedby="sendDateError">
+									<p id="sendDateError" class="text-red-600 text-sm mt-1 w-full hidden" role="alert"></p>
+								</div>
+							</div>
+						</button>
+						<button type="button" class="send-date-option w-full bg-white rounded-md p-6 flex flex-col gap-2 text-left hover:ring-2 hover:ring-[#FACC15] hover:bg-sky-200 transition-all text-black font-semibold ring-2 ring-[#FACC15]" data-send="direct">
+							<span class="text-2xl">Verstuur direct</span>
+						</button>
+						</div>
+						<input type="hidden" name="send_when" id="sendWhen" value="">
+						<input type="hidden" name="send_date" id="sendDate" value="">
+						<div class="max-w-[400px] mx-auto mt-6">
+							<button type="button" id="btnStep9Bestellen" class="step-volgende-btn btn__main w-full" disabled>Bestellen <i class="fa-sharp fa-solid fa-arrow-right"></i></button>
+						</div>
+					</div>
+				</div>
+
+				
+			</section>
+
+			
+
+			<!-- Section 4: Jouw persoonlijke Autowasbon - gegevens -->
+			<section id="section-4" class="flow-section mx-auto max-w-[460px]" data-section="4">
+				<h2 class="section__title section__title--small font__wash text-white mb-6">BESTEL JOUW <br />PERSOONLIJKE AUTOWASBON</h2>
+				<div id="summaryPreviewCard" class="summary-preview-card rounded-md p-4 flex items-center gap-4 mb-6 text-black transition-colors shadow-lg" style="background-color: #89b7f9;">
+					<div class="w-32 aspect-[4/5] rounded-md overflow-hidden flex-shrink-0 relative">
+						<img id="summaryPreviewImg" src="/assets/preview__calm-1TINlyvK.png" alt="" class="w-full h-full object-cover">
+						<div class="preview__card--foreground summary-preview-wens-wrap absolute inset-0 flex items-center justify-center pointer-events-none">
+							<img id="summaryPreviewWens" src="" alt="" class="summary-preview-wens-img w-[140%] max-w-none object-contain">
+						</div>
+					</div>
+					<div class="flex-1">
+						<p class="font-bold text-3xl" id="summaryName">-</p>
+						<p class="font-bold text-2xl" id="summaryWaarde">€15</p>
+						<p id="summaryDeliverySend" class="text-xs text-gray-500 mt-1">Digitaal versturen · Direct versturen</p>
+					</div>
+				</div>
+				<div class="mb-6">
+					<h3 class="text-white font-bold uppercase mb-4 text-2xl">GEGEVENS ONTVANGER</h3>
+					<div class="space-y-4">
+						<div><label class="block text-white/80 text-md mb-1 tracking-[.025em]">Voornaam</label><input type="text" name="ontvanger_voornaam" autocomplete="shipping given-name" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Voornaam"></div>
+						<div>
+							<label class="block text-white/80 text-md mb-1">Email</label>
+							<input type="email" name="ontvanger_email" autocomplete="shipping email" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Email">
+						</div>
+						<div id="ontvangerAdresWrap" class="hidden space-y-4">
+							<div class="flex gap-4">
+								<div class="flex-1"><label class="block text-white/80 text-md mb-1">Straat</label><input type="text" name="ontvanger_straat" autocomplete="shipping street-address" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Straat"></div>
+								<div class="w-20 flex-shrink-0"><label class="block text-white/80 text-md mb-1">Nr.</label><input type="text" name="ontvanger_huisnummer" autocomplete="shipping address-line2" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Nr."></div>
+							</div>
+							<div class="flex gap-4">
+								<div class="flex-1"><label class="block text-white/80 text-md mb-1">Postcode</label><input type="text" name="ontvanger_postcode" autocomplete="shipping postal-code" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Postcode"></div>
+								<div class="flex-1"><label class="block text-white/80 text-md mb-1">Plaats</label><input type="text" name="ontvanger_plaats" autocomplete="shipping address-level2" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Plaats"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mb-6">
+					<h3 class="text-white font-bold uppercase mb-4 text-2xl">JOUW GEGEVENS</h3>
+					<div class="space-y-4">
+						<div><label class="block text-white/80 text-md mb-1">Voornaam</label><input type="text" name="zender_voornaam" autocomplete="billing given-name" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Voornaam"></div>
+						<div><label class="block text-white/80 text-md mb-1">Email</label><input type="email" name="zender_email" autocomplete="billing email" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Email"></div>
+					</div>
+				</div>
+
+				<div class="flex flex-col items-center justify-center w-full max-w-[440px] mx-auto">
+				<button type="button" id="btnAfrekenen" class="btn__main mb-8">Afrekenen <i class="fa-sharp fa-solid fa-arrow-right ml-2"></i></button>
+				</div>
+			</section>
+
+			<!-- Section 5: Bevestig e-mailadres -->
+			<section id="section-5" class="flow-section mx-auto max-w-[460px]" data-section="5">
+				<h2 class="section__title section__title--small font__wash text-white mb-6">Even een kleine email check<br /> voordat we verder gaan</h2>
+				<div class="bg-white rounded-md py-4 px-6 mb-6 text-black space-y-3">
+					<div>
+						<p class="text-gray-500 text-md mb-1">Email van de ontvanger</p>
+						<p id="emailConfirmOntvanger" class="font-semibold text-2xl break-all">—</p>
+					</div>
+					<div>
+						<p class="text-gray-500 text-md mb-1">Jouw e-mail</p>
+						<p id="emailConfirmZender" class="font-semibold text-2xl break-all">—</p>
+					</div>
+				</div>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-[440px] mx-auto">
+					<button type="button" id="btnEmailWijzig" class="btn__main bg-black text-white w-full sm:w-auto">Wijzig</button>
+					<button type="button" id="btnEmailConfirm" class="btn__main w-full sm:w-auto">Yes, dit klopt! <i class="fa-sharp fa-solid fa-arrow-right ml-2"></i></button>
+				</div>
+			</section>
+
+			<!-- Section 6: Mollie -->
+			<section id="section-6" class="flow-section mx-auto max-w-[460px]" data-section="6">
+				<h2 class="section__title section__title--small font__wash text-white mb-6 text-center">BETALEN</h2>
+				<div class="bg-gray-700 rounded-2xl p-12 flex flex-col items-center justify-center min-h-[200px] gap-6">
+					<p class="text-white font-bold text-2xl">MOLLIE</p>
+					<p class="text-white text-xl">Betaling verwerken over <span id="mollieCountdown" class="font-bold">5</span> seconden...</p>
+				</div>
+			</section>
+
+			<!-- Section 7: Jouw Autowasbon is Gereed -->
+			<section id="section-7" class="flow-section mx-auto max-w-[460px]" data-section="7">
+				<div class="title__wash font__wash mb-6">
+					<div class="title__wash--logo flex justify-center items-center z-10 relative rotate-3 mb-[32px]">
+					  <img src="/assets/logo-main-DRWdqO_X.svg" alt="Log Nat. Autowasbon" class="card__logo w-[96px]">
+					</div>
+					<img class="title__wash--water" src="data:image/svg+xml,%3csvg%20width='273'%20height='204'%20viewBox='0%200%20273%20204'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M11.6645%20201.855C11.0687%20203.262%208.74583%20203.457%206.55907%20202.565C4.21727%20201.675%202.94177%20199.68%203.54026%20198.428L103.903%204.27028C104.498%202.86338%20106.821%202.66767%20109.008%203.5605C111.195%204.45332%20112.625%206.44551%20112.027%207.69729L11.5094%20201.858L11.6645%20201.855Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M105.724%2073.1254C105.439%2074.5269%20103.282%2075.3404%20100.793%2074.9183C98.3043%2074.4963%2096.7269%2072.9721%2097.0099%2071.4155L117.864%204.48535C118.149%203.08387%20120.306%202.27039%20122.795%202.69245C125.284%203.1145%20127.016%204.63592%20126.733%206.19252L105.879%2073.1227L105.724%2073.1254Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M140.937%2073.4466C140.961%2074.8426%20138.967%2076.1188%20136.487%2076.1621C134.006%2076.2054%20131.969%2074.9996%20131.944%2073.6035L130.753%205.35128C130.729%203.95522%20132.723%202.67909%20135.203%202.63579C137.684%202.59249%20139.721%203.79826%20139.745%205.19433L140.937%2073.4466Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M175.305%2070.0497C175.64%2071.4403%20173.962%2073.0213%20171.647%2073.6824C169.174%2074.191%20166.993%2073.6084%20166.656%2072.0627L143.479%205.90102C143.145%204.51037%20144.823%202.92941%20147.138%202.26835C149.61%201.75969%20151.794%202.4974%20152.129%203.88805L175.305%2070.0497Z'%20fill='%231D1D1B'/%3e%3cpath%20d='M272.538%20194.198C273.183%20195.583%20271.82%20197.469%20269.666%20198.437C267.357%20199.409%20265.028%20199.294%20264.539%20197.906L157.143%206.90937C156.499%205.52413%20157.862%203.63835%20160.016%202.66975C162.325%201.69844%20164.499%201.81568%20165.143%203.20092L272.538%20194.198Z'%20fill='%231D1D1B'/%3e%3c/svg%3e">
+					<h1 id="confirmSendMessage" class="section__title relative">
+						YES! <br />JOUW AUTOWASBON IS<br /> KLAAR VOOR GEBRUIK!
+						
+					</h1>
+				</div>
+				
+				<div class="cardpreview-wrapper w-[280px] mx-auto mb-4 relative">
+					<div class="preview__card--background rounded-xl overflow-hidden relative">
+						<img id="confirmPreviewBg" src="/assets/preview__calm-1TINlyvK.png" alt="Autowasbon">
+						<div class="preview__card--foreground">
+							<img id="confirmPreviewWens" src="" alt="Wens">
+						</div>
+						<div id="confirmRecipientTag" class="font__wash text-black absolute top-[7%] left-1/2 -translate-x-1/2 text-[20px] uppercase tracking-[0.02em] z-10 whitespace-nowrap overflow-hidden text-center max-w-[85%]">-</div>
+					</div>
+				</div>
+				
+				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-[440px] mx-auto">
+				<a href="#" id="linkFactuur" class="btn__main bg-black text-white w-full sm:w-auto">Factuur nodig?</a>
+				</div>
+			</section>
+
+			<!-- Section 8: Maak factuur -->
+			<section id="section-8" class="flow-section mx-auto max-w-[460px]" data-section="8">
+				<h2 class="section__title section__title--small font__wash text-white mb-6">MAAK FACTUUR</h2>
+				
+				<h3 class="text-white font-bold uppercase mb-4 text-2xl">Factuur gegevens</h3>
+				<div class="space-y-4 mb-8">
+					<div><label class="block text-white/80 text-md mb-1">Bedrijfsnaam</label><input type="text" name="factuur_bedrijfsnaam" autocomplete="billing organization" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Bedrijfsnaam"></div>
+					<div><label class="block text-white/80 text-md mb-1">Voornaam</label><input type="text" name="factuur_voornaam" autocomplete="billing given-name" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Voornaam"></div>
+					<div><label class="block text-white/80 text-md mb-1">Email</label><input type="email" name="factuur_email" autocomplete="billing email" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Email"></div>
+					<div class="flex gap-4">
+						<div class="flex-1"><label class="block text-white/80 text-md mb-1">Straat</label><input type="text" name="factuur_straat" autocomplete="billing street-address" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Straat"></div>
+						<div class="w-20 flex-shrink-0"><label class="block text-white/80 text-md mb-1">Nr.</label><input type="text" name="factuur_huisnummer" autocomplete="billing address-line2" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Nr."></div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex-1"><label class="block text-white/80 text-md mb-1">Postcode</label><input type="text" name="factuur_postcode" autocomplete="billing postal-code" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Postcode"></div>
+						<div class="flex-1"><label class="block text-white/80 text-md mb-1">Plaats</label><input type="text" name="factuur_plaats" autocomplete="billing address-level2" class="w-full rounded-md border-0 bg-white text-xl py-3 px-4 text-black focus:shadow-lg focus:outline-none" placeholder="Plaats"></div>
+					</div>
+				</div>
+				
+				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-[440px] mx-auto">
+				<button type="button" id="btnMaakFactuur" class="btn__main mb-8">Maak factuur <i class="fa-sharp fa-solid fa-arrow-right ml-2"></i></button>
+				</div>
+			</section>
+
+			<!-- Section 9: Factuur gemaakt -->
+			<section id="section-9" class="flow-section mx-auto max-w-[460px]" data-section="9">
+				<h2 class="section__title section__title--small font__wash text-white mb-6 text-center">Factuur is gemaakt!</h2>
+				<p class="text-center text-white text-xl mb-8">Gestuurd naar je email.</p>
+			</section>
+		</form>
+	</main>
+
+</body>
+</html>

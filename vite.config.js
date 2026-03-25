@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         carwash: 'carwash.html',
-        flow:    'flow-new.html',
+        flow:    'index.html',
         maak:    'carwash-maak.html',
       },
     },

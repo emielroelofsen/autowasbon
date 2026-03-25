@@ -7,7 +7,7 @@
 export const VOUCHER_API_URL = 'https://beleving.api.autowasbon.nl/api/v1/vouchers';
 
 /** URL where Mollie redirects after payment (thank-you page). */
-export const VOUCHER_RETURN_URL = typeof window !== 'undefined' ? (window.location.origin + '/flow-new.html') : '';
+export const VOUCHER_RETURN_URL = typeof window !== 'undefined' ? (window.location.origin + '/') : '';
 
 /**
  * GET voucher details by id/uuid.
