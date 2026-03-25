@@ -1220,17 +1220,17 @@
 
       if (isIOS) {
         // Download .pkpass — iOS Wallet opens it automatically.
-        window.location.href = `${API_BASE}/${uuid}/pass`;
+        window.location.href = `${API_BASE}/${uuid}/apple-pass`;
       } else {
         // Android: fetch signed JWT and open Google Wallet link.
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-sharp fa-solid fa-spinner fa-spin"></i> Laden...';
         try {
           const res = await fetch(`${API_BASE}/${uuid}/google-wallet-jwt`, {
-            headers: { Accept: 'application/json' },
+            headers: { Accept: 'text/plain' },
           });
           if (!res.ok) throw new Error('JWT fetch failed');
-          const { jwt } = await res.json();
+          const jwt = await res.text();
           window.open(`https://pay.google.com/gp/v/save/${jwt}`, '_blank');
         } catch (e) {
           console.error('[Wallet] Google Wallet error:', e);
