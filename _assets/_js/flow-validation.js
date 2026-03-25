@@ -86,7 +86,6 @@ export function initFlowValidation() {
 		errorLabelCssClass: 'flow-field-error',
 		errorFieldCssClass: 'just-validate-error-field',
 		focusInvalidField: true,
-		validateBeforeSubmitting: true
 	});
 
 	// Section 4: GEGEVENS ONTVANGER
