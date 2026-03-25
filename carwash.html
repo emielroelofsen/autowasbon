@@ -1035,15 +1035,15 @@
                   <div id="voucherValidUntil" class="text-right font-semibold text-blue-700 text-xl">15-01-2026</div>
                 </div>
         
-                <!-- Buttons -->
-                <div class="mt-6">
+                <!-- Buttons: only visible on mobile -->
+                <div class="mt-6 md:hidden">
                   <button
+                    id="btnSaveToWallet"
                     class="h-12 rounded-lg border-2 border-blue-600 text-blue-700 font-medium hover:bg-blue-50 w-full font-semibold uppercase"
                     type="button"
                   >
                   <i class="fa-sharp fa-solid fa-wallet"></i> Sla op in wallet
                   </button>
-                
                 </div>
         
                 <!-- Divider line -->
@@ -1193,6 +1193,55 @@
   // Store Promise on window so carwash-main.js can await it before loading stations.
   // Do NOT top-level await here — Safari/iOS may start carwash-main.js in parallel otherwise.
   window.__voucherPreload = setupVoucher();
+
+  // Wire up the "Sla op in wallet" button after voucher data is available.
+  window.__voucherPreload.then(() => {
+    const btn = document.getElementById('btnSaveToWallet');
+    if (!btn) return;
+
+    const voucher = window.__voucherData;
+    if (!voucher?.uuid) {
+      btn.closest('div')?.classList.add('hidden');
+      return;
+    }
+
+    const API_BASE = 'https://beleving.api.autowasbon.nl/api/v1/vouchers';
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    if (!isIOS && !isAndroid) {
+      // Not mobile — button is already hidden via md:hidden, but extra safety:
+      btn.closest('div')?.classList.add('hidden');
+      return;
+    }
+
+    btn.addEventListener('click', async () => {
+      const uuid = encodeURIComponent(voucher.uuid);
+
+      if (isIOS) {
+        // Download .pkpass — iOS Wallet opens it automatically.
+        window.location.href = `${API_BASE}/${uuid}/pass`;
+      } else {
+        // Android: fetch signed JWT and open Google Wallet link.
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-sharp fa-solid fa-spinner fa-spin"></i> Laden...';
+        try {
+          const res = await fetch(`${API_BASE}/${uuid}/google-wallet-jwt`, {
+            headers: { Accept: 'application/json' },
+          });
+          if (!res.ok) throw new Error('JWT fetch failed');
+          const { jwt } = await res.json();
+          window.open(`https://pay.google.com/gp/v/save/${jwt}`, '_blank');
+        } catch (e) {
+          console.error('[Wallet] Google Wallet error:', e);
+          alert('Kon de wallet niet openen. Probeer het later opnieuw.');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-sharp fa-solid fa-wallet"></i> Sla op in wallet';
+        }
+      }
+    });
+  });
 </script>
 <script type="module" src="_assets/_components/carwash-main.js?v=1"></script>
 <script type="module" src="_assets/_components/lottie-mask.js"></script>
