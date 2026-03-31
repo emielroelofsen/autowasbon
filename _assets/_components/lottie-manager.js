@@ -1,5 +1,7 @@
 // Lottie animation manager for carwash.html
 import * as THREE from 'three';
+import lottie from 'lottie-web';
+import JSZip from 'jszip';
 import { GAMMA } from './carwash-config.js';
 
 export class LottieManager {

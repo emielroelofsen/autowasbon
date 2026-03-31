@@ -3,6 +3,8 @@
  * Elements appear one by one; sections and steps animate in/out.
  */
 
+import { gsap } from 'gsap';
+
 const DUR_OUT = 0.35;
 const DUR_IN = 0.4;
 const STAGGER = 0.08;

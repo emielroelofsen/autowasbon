@@ -7,6 +7,7 @@ export class TextureManager {
     this.sceneSetup = sceneSetup;
     this.textureCache = new Map();
     this.textureLoader = new THREE.TextureLoader();
+    this.textureLoader.setCrossOrigin('anonymous');
     this.poortTexture = null;
   }
 

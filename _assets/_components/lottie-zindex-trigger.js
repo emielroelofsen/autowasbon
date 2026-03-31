@@ -2,6 +2,8 @@
 // Triggers Lottie animations based on camera z-index position
 // Now works with checkpoint timeline configuration
 
+import lottie from 'lottie-web';
+import JSZip from 'jszip';
 import { checkpointConfig } from './checkpoint-config.js';
 
 export class LottieZIndexTrigger {
@@ -77,12 +79,6 @@ export class LottieZIndexTrigger {
       return;
     }
     
-    if (typeof lottie === 'undefined') {
-      console.warn('Lottie library not loaded yet. Retrying in 100ms...');
-      setTimeout(() => this.loadLottie(index, url), 100);
-      return;
-    }
-    
     const container = this.containers[index];
     
     // Clear any existing animation
@@ -93,11 +89,6 @@ export class LottieZIndexTrigger {
       
       // For .lottie files, we need to manually extract JSON since the library doesn't handle them natively
       if (url.endsWith('.lottie')) {
-        if (typeof JSZip === 'undefined') {
-          console.error('JSZip is required for .lottie files. Please include JSZip library.');
-          return;
-        }
-        
         try {
           // Fetch the .lottie file
           const response = await fetch(url);

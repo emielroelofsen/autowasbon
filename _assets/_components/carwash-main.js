@@ -1,5 +1,6 @@
 // Main initialization file for carwash.html
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { SceneSetup } from './scene-setup.js';
 import { FontLoader } from './font-loader.js';
 import { CameraController } from './camera-controller.js';
@@ -466,7 +467,7 @@ function startStationLazyLoadingMonitor() {
 // Load a pending station
 async function loadPendingStation(pending) {
   const { index, station, startZ } = pending;
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   const currentTheme = SOAP_THEMES[SOAP_THEME] || SOAP_THEMES['Power Sop'];
   
   // Merge theme values (same logic as in loadAllStations)
@@ -572,7 +573,15 @@ async function loadPendingStation(pending) {
 
 // Load stations sequentially
 async function loadAllStations() {
-  const loader = new window.GLTFLoader();
+  // Wait for voucher data to be applied before loading stations and textures.
+  // This ensures setNameGetter / setSoapTheme etc. are called before applyUVMappings.
+  // Fixes a Safari/iOS race condition where the 3D scene would start before the
+  // async voucher fetch in carwash.html's inline script had finished.
+  if (window.__voucherPreload) {
+    await window.__voucherPreload;
+  }
+
+  const loader = new GLTFLoader();
   let currentZ = 0;
   
   // Check if mobile
@@ -698,11 +707,6 @@ async function loadAllStations() {
 
 /* ===== INITIALIZATION ===== */
 function init() {
-  // Wait for GLTFLoader to be available
-  if (typeof window.GLTFLoader === 'undefined') {
-    window.addEventListener('gltfloader-ready', init);
-    return;
-  }
   
   // Initialize scene setup
   const canvas = document.getElementById('scene');
@@ -737,6 +741,18 @@ function init() {
   // Initialize texture manager
   textureManager = new TextureManager(sceneSetup);
   textureManager.loadPoortTexture();
+
+  // Expose minimal public hooks for integration (e.g. carwash.html?voucher=...)
+  window.carwashTextureManager = textureManager;
+  window.applyCarwashTheme = (themeName) => {
+    try {
+      applyUVMappings(textureManager, themeName, SOAP_THEMES, stations);
+      return true;
+    } catch (err) {
+      console.warn('[Carwash] applyCarwashTheme failed:', err);
+      return false;
+    }
+  };
   
   // Make giveObjectMapping available globally for easy use
   window.giveObjectMapping = (objectName, imagePath, projectionAxis, options) => {
@@ -767,7 +783,7 @@ function init() {
   window.cameraController = cameraController;
   
   // Initialize station loader
-  const loader = new window.GLTFLoader();
+  const loader = new GLTFLoader();
   stationLoader = new StationLoader(loader);
   
   // Start loading all stations

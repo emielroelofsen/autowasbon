@@ -15,7 +15,6 @@
   <script src="https://kit.fontawesome.com/f041d734e9.js" crossorigin="anonymous"></script>
 
 	<title>National Autowasbon - POWER WASH</title>
-</head>
 <style>
   /* Card flip container */
   .card-flip-container {
@@ -911,7 +910,7 @@
                           <svg class="dash__text--svg" width="184" height="50" viewBox="0 0 184 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                               
                               <path  pathLength="1" d="M91.6919 9.50542e-06L175.38 1.68216e-05C180.605 1.72784e-05 184.427 4.92751 183.128 9.98867L175.915 38.0965C175.816 38.4809 175.688 38.8638 175.529 39.2273C171.336 48.7872 167.1 49.0987 160.514 50L22.8697 50C16.2833 49.0987 12.0474 48.7871 7.85526 39.2273C7.69586 38.8638 7.56751 38.4809 7.46885 38.0965L0.255346 9.98865C-1.04353 4.92748 2.77906 1.73241e-06 8.00424 2.18921e-06L91.6919 9.50542e-06Z"
-                              fill="#1B45EA"" />
+                              fill="#1B45EA" />
                               </svg>
                         
           
@@ -1067,7 +1066,7 @@
                           />
                        
                       </div>
-                    </div>
+                    </div> -->
                   </div>
             
                   <!-- Value / expiry -->
@@ -1198,10 +1197,15 @@
                 </div>
 
                 <img
-                src="_assets/_style/_images/logo-main.svg"
-                alt="Logo"
-                class="w-[80px] h-auto mx-auto mt-8"
-              />
+                          id="voucherBarcodeImg"
+                          src="_assets/_style/_images/barcode.png"
+                          alt="Barcode"
+                          class="w-full max-w-[240px] object-cover mix-blend-multiply"
+                        />
+
+                      </div>
+
+
               </div>
             
               <script>
@@ -1257,32 +1261,143 @@
   </div>
 </main>
 
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-  }
-}
-</script>
-<script type="module">
-  import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-  
-  // Make GLTFLoader available globally
-  window.GLTFLoader = GLTFLoader;
-  
-  // Trigger a custom event when loader is ready
-  window.dispatchEvent(new Event('gltfloader-ready'));
-</script>
 <script type="module" src="_assets/_components/scene-setup.js"></script>
 <script type="module" src="_assets/_components/font-loader.js"></script>
 <script type="module" src="_assets/_components/camera-controller.js"></script>
 <script type="module" src="_assets/_components/checkpoint-controller.js"></script>
 <script type="module" src="_assets/_components/station-loader.js"></script>
 <script type="module" src="_assets/_components/lottie-zindex-trigger.js"></script>
-<script type="module" src="_assets/_components/carwash-main.js"></script>
+<script type="module">
+  import { setNameGetter, setSoapTheme, setDoucheGordijnTextGetter, setMediaUrlGetter } from './_assets/_components/carwash-config.js';
+  import { SOAP_OPTIONS } from './_assets/_js/maakbon-config.js';
+
+  const DUMMY_VOUCHER = {
+    id: 10, uuid: '76e589af-8733-4b2c-b719-8e0f7cf54830',
+    voucher_type: { value: 8, label: 'Sparkling!' },
+    voucher_layout: { value: 3, label: 'Sweet Flowers' },
+    personal_message: 'Hey Jacco, gefeliciteerd met het behalen van je rijexamen. Mocht ook wel na 34 pogingen haha!',
+    photo: 'vouchers/GHqNiZED0D7B07TNyLJq2TgGYOyY8AVu47S2AKTU.jpg',
+    value: 15,
+    valid_until: '2027-03-19',
+    receiver_firstname: 'Jacco',
+    receiver_lastname: null,
+    giver_firstname: 'Emiel',
+    autowasbon_qr_url: 'https://beleving.autowasbon.nl/_assets/_style/_images/random_qr.png',
+  };
+
+  async function setupVoucher() {
+    const voucherId = new URLSearchParams(window.location.search).get('voucher');
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+    if (!isLocalhost && !voucherId) return;
+
+    let voucher = null;
+
+    if (isLocalhost) {
+      voucher = DUMMY_VOUCHER;
+    } else {
+      try {
+        const url = `https://beleving.api.autowasbon.nl/api/v1/vouchers/${encodeURIComponent(voucherId)}/experience`;
+        const res = await fetch(url, { headers: { Accept: 'application/json' } });
+        const json = await res.json().catch(() => ({}));
+        voucher = json?.data?.data ?? json?.data ?? null;
+      } catch (e) {
+        console.warn('[Voucher] Fetch failed:', e);
+      }
+    }
+
+    if (!voucher) return;
+
+    window.__voucherData = voucher;
+
+    const name = [voucher.receiver_firstname, voucher.receiver_lastname].filter(Boolean).join(' ').trim();
+    if (name) setNameGetter(() => name);
+
+    const msg = (voucher.personal_message || '').trim();
+    if (msg) setDoucheGordijnTextGetter(() => msg);
+
+    const layoutIdx = voucher.voucher_layout?.value ?? voucher.voucher_layout;
+    const theme = SOAP_OPTIONS[Number(layoutIdx) - 1]?.name;
+    if (theme) setSoapTheme(theme);
+
+    if (voucher.uuid) {
+      const photoUrl = `https://beleving.api.autowasbon.nl/api/v1/vouchers/${voucher.uuid}/photo`;
+      setMediaUrlGetter(() => photoUrl);
+    }
+
+    // DOM updates (QR, value, expiry) — these don't affect 3D scene timing
+    const qrUrl = voucher.autowasbon_qr_url;
+    if (qrUrl) {
+      const qrImg = document.getElementById('voucherQrImg');
+      if (qrImg) qrImg.src = qrUrl;
+    }
+
+    const valueEl = document.getElementById('voucherValue');
+    if (valueEl && voucher.value != null) {
+      valueEl.textContent = Number(voucher.value).toLocaleString('nl-NL', { style: 'currency', currency: 'EUR' });
+    }
+
+    const validUntilEl = document.getElementById('voucherValidUntil');
+    if (validUntilEl && voucher.valid_until) {
+      const [y, m, d] = voucher.valid_until.split('-');
+      validUntilEl.textContent = `${d}-${m}-${y}`;
+    }
+  }
+
+  // Store Promise on window so carwash-main.js can await it before loading stations.
+  // Do NOT top-level await here — Safari/iOS may start carwash-main.js in parallel otherwise.
+  window.__voucherPreload = setupVoucher();
+
+  // Wire up the "Sla op in wallet" button after voucher data is available.
+  window.__voucherPreload.then(() => {
+    const btn = document.getElementById('btnSaveToWallet');
+    if (!btn) return;
+
+    const voucher = window.__voucherData;
+    if (!voucher?.uuid) {
+      btn.closest('div')?.classList.add('hidden');
+      return;
+    }
+
+    const API_BASE = 'https://beleving.api.autowasbon.nl/api/v1/vouchers';
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    if (!isIOS && !isAndroid) {
+      // Not mobile — button is already hidden via md:hidden, but extra safety:
+      btn.closest('div')?.classList.add('hidden');
+      return;
+    }
+
+    btn.addEventListener('click', async () => {
+      const uuid = encodeURIComponent(voucher.uuid);
+
+      if (isIOS) {
+        // Download .pkpass — iOS Wallet opens it automatically.
+        window.location.href = `${API_BASE}/${uuid}/apple-pass`;
+      } else {
+        // Android: fetch signed JWT and open Google Wallet link.
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-sharp fa-solid fa-spinner fa-spin"></i> Laden...';
+        try {
+          const res = await fetch(`${API_BASE}/${uuid}/google-wallet-jwt`, {
+            headers: { Accept: 'text/plain' },
+          });
+          if (!res.ok) throw new Error('JWT fetch failed');
+          const jwt = await res.text();
+          window.open(`https://pay.google.com/gp/v/save/${jwt}`, '_blank');
+        } catch (e) {
+          console.error('[Wallet] Google Wallet error:', e);
+          alert('Kon de wallet niet openen. Probeer het later opnieuw.');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-sharp fa-solid fa-wallet"></i> Sla op in wallet';
+        }
+      }
+    });
+  });
+</script>
+<script type="module" src="_assets/_components/carwash-main.js?v=1"></script>
 <script type="module" src="_assets/_components/lottie-mask.js"></script>
 <script type="module">
   // Initialize checkpoint controller after camera controller is ready
@@ -1366,16 +1481,12 @@
   }
 </script>
 <script type="module">
-  // All JavaScript code has been moved to separate module files:
-  // - carwash-config.js: Configuration constants
-  // - station-config.js: Station configuration
-  // - checkpoint-config.js: Checkpoint timeline configuration (named checkpoints for navigation)
-  // - texture-manager.js: Texture loading and UV mapping
-  // - lottie-manager.js: Lottie animation handling
-  // - animation-controller.js: Animation loop and object animations
-  // - uv-mapping-config.js: UV mapping configurations
-  // - checkpoint-controller.js: Checkpoint navigation for scroll and dashboard clicks
-  // - carwash-main.js: Main initialization and orchestration
+  // Expose npm-bundled lottie and JSZip as globals so that the non-module inline
+  // scripts below can access them (they rely on `typeof lottie` / `typeof JSZip`).
+  import lottie from 'lottie-web';
+  import JSZip from 'jszip';
+  window.lottie = lottie;
+  window.JSZip = JSZip;
 </script>
 <script>
   // ===== CONFIGURATION =====

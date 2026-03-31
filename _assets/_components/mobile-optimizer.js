@@ -1,4 +1,6 @@
 /* ===== MOBILE OPTIMIZER ===== */
+import * as THREE from 'three';
+
 /**
  * Mobile optimizer for Three.js applications
  * Automatically detects mobile devices and applies performance optimizations
@@ -8,13 +10,10 @@ export class MobileOptimizer {
     this.isMobile = this.detectMobile();
     this.isLowEnd = false;
     
-    // Get THREE from global scope (will be available when module loads)
-    const THREE = window.THREE || globalThis.THREE;
-    
-    // Shadow map types (use string keys that will be resolved later)
+    // Shadow map types
     this.shadowMapTypes = {
-      basic: THREE ? THREE.BasicShadowMap : 0,
-      pcf: THREE ? THREE.PCFSoftShadowMap : 1
+      basic: THREE.BasicShadowMap,
+      pcf: THREE.PCFSoftShadowMap
     };
     
     // DISABLED: Mobile optimizations are disabled, but mobile detection is kept for camera position
@@ -87,21 +86,13 @@ export class MobileOptimizer {
   optimizeRenderer(renderer) {
     if (!renderer) return;
     
-    // Get THREE from global scope to ensure shadow map types are correct
-    const THREE = window.THREE || globalThis.THREE;
-    
     // Set pixel ratio (use desktop settings)
     renderer.setPixelRatio(this.optimizations.pixelRatio);
     
     // Shadow map settings - shadows always disabled (not used in this project)
     if (renderer.shadowMap) {
       renderer.shadowMap.enabled = false; // Always disabled
-      // Shadow map type doesn't matter since shadows are disabled
-      if (THREE) {
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      } else {
-        renderer.shadowMap.type = this.optimizations.shadowMapType;
-      }
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     }
     
     // Renderer optimized (with desktop settings)
@@ -112,10 +103,6 @@ export class MobileOptimizer {
    */
   optimizeTexture(texture) {
     if (!texture) return texture;
-    
-    // Get THREE from global scope
-    const THREE = window.THREE || globalThis.THREE;
-    if (!THREE) return texture;
     
     // Reduce texture quality on mobile
     if (this.isMobile && texture.image) {

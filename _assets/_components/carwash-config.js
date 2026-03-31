@@ -15,6 +15,8 @@ export const THEME_CHANGE_ROTATION_SPEED = 0.05;
 let globalNameGetter = null;
 // Global douche gordijn text getter function - can be set by WasbonController
 let globalDoucheGordijnTextGetter = null;
+// Global media URL getter function - can be set to override the default placeholder photo
+let globalMediaUrlGetter = null;
 // Flag to indicate if we're on maak-bon page (where empty name should show nothing)
 let isMaakBonPage = false;
 
@@ -28,6 +30,14 @@ export function setNameGetter(nameGetter) {
 
 export function setDoucheGordijnTextGetter(textGetter) {
   globalDoucheGordijnTextGetter = textGetter;
+}
+
+export function setMediaUrlGetter(getter) {
+  globalMediaUrlGetter = getter;
+}
+
+export function getMediaUrl() {
+  return globalMediaUrlGetter ? globalMediaUrlGetter() : null;
 }
 
 export function getName() {
@@ -92,7 +102,11 @@ export function generateDoucheGordijnTexture() {
 }
 
 // Soap theme configuration
-export const SOAP_THEME = 'Power Sop'; // Change this to switch themes: 'Party Party', 'Sweet Flowers', 'Pop Sop', 'Power Sop', 'Feel Good', 'Soft Calm', 'Autowasbon'
+export let SOAP_THEME = 'Power Sop'; // Change this to switch themes: 'Party Party', 'Sweet Flowers', 'Pop Sop', 'Power Sop', 'Feel Good', 'Soft Calm', 'Autowasbon'
+
+export function setSoapTheme(theme) {
+  SOAP_THEME = theme;
+}
 
 // Soap theme texture mapping
 export const SOAP_THEMES = {

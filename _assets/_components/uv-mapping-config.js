@@ -1,6 +1,6 @@
 // UV mapping configurations for carwash.html
 // This file contains all the giveObjectMapping calls for texture application
-import { USER_MEDIA_GAMMA, generateDoucheGordijnTexture } from './carwash-config.js';
+import { USER_MEDIA_GAMMA, generateDoucheGordijnTexture, getMediaUrl } from './carwash-config.js';
 import { WENSEN, USER_WENS_LOTTIE_OPTIONS } from './wensen-config.js';
 
 export function applyUVMappings(textureManager, SOAP_THEME, SOAP_THEMES, stations) {
@@ -48,7 +48,8 @@ export function applyUVMappings(textureManager, SOAP_THEME, SOAP_THEMES, station
   // user__media: Use basic material with depthWrite false to allow objects behind to be visible
   // UVs are generated in object-local space so they move correctly with the mesh
   // Lower gamma value for brighter appearance
-  textureManager.giveObjectMapping('user__media', '_assets/_objects/_textures/layer__media--cleanm.png', 'x', { 
+  const mediaUrl = getMediaUrl() || '_assets/_objects/_textures/layer__media--cleanm.png';
+  textureManager.giveObjectMapping('user__media', mediaUrl, 'x', { 
     stationId: 'message__media',
     depthWrite: false,
     useBasicMaterial: true,

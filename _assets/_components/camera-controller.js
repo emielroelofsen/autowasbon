@@ -13,6 +13,7 @@ function easeOutBounce(t) {
   if (t < 2.5 / d1) return n1 * (t -= 2.25 / d1) * t + 0.9375;
   return n1 * (t -= 2.625 / d1) * t + 0.984375;
 }
+import * as THREE from 'three';
 
 export class CameraController {
   constructor(camera, sceneSetup, scrollCheckpoints = null) {
